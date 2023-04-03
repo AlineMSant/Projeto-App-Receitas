@@ -1,9 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../context/AppContext';
-
 
 function Login() {
   const { email, setEmail, password, setPassword } = useContext(AppContext);
+
+  const [disableStatus, setDisableStatus] = useState(true);
+
+  useEffect(() => {
+    const minLength = 6;
+
+    if (((/([a-z])\w+@[a-z]\w+.com/g).test(email)) && password.length > minLength) {
+      setDisableStatus(false);
+    } else {
+      setDisableStatus(true);
+    }
+  }, [email, password]);
 
   return (
     <div>
@@ -23,6 +34,7 @@ function Login() {
       <button
         type="button"
         data-testid="login-submit-btn"
+        disabled={ disableStatus }
       >
         Enter
       </button>
