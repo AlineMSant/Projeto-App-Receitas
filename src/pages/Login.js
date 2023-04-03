@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 
 function Login() {
   const { email, setEmail, password, setPassword } = useContext(AppContext);
-
+  const history = useHistory();
   const [disableStatus, setDisableStatus] = useState(true);
 
   useEffect(() => {
@@ -19,6 +20,7 @@ function Login() {
   function handleClick() {
     localStorage.setItem('user', JSON.stringify({ email }));
     // para getItem JSON.parse(localStorage.getItem('user'));
+    history.push('/meals');
   }
 
   return (
@@ -50,4 +52,4 @@ function Login() {
 
 export default Login;
 
-// requisitos 2-3: Aline, Nicola, Samara, Camila, Patrick
+// requisitos 2-6: Aline, Nicola, Samara, Camila, Patrick
