@@ -16,6 +16,11 @@ function Login() {
     }
   }, [email, password]);
 
+  function handleClick() {
+    localStorage.setItem('user', JSON.stringify({ email }));
+    // para getItem JSON.parse(localStorage.getItem('user'));
+  }
+
   return (
     <div>
       <input
@@ -35,6 +40,7 @@ function Login() {
         type="button"
         data-testid="login-submit-btn"
         disabled={ disableStatus }
+        onClick={ handleClick }
       >
         Enter
       </button>
