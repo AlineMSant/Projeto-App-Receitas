@@ -5,14 +5,17 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AppProvider } from './context/AppProvider';
+import { RecipesProvider } from './context/Recipes.Provider';
 
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
     <BrowserRouter>
-      <AppProvider>
-        <App />
-      </AppProvider>
+      <RecipesProvider>
+        <AppProvider>
+          <App />
+        </AppProvider>
+      </RecipesProvider>
     </BrowserRouter>,
   );
 
