@@ -68,7 +68,7 @@ export default function Recipes() {
       requestAPIDrinks();
       requestAPICategoryDrinks();
     }
-  }, []);
+  });
 
   return (
     <>
