@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 
-function Meals() {
+function DoneRecipes() {
   return (
     <div>
       <Header />
@@ -9,6 +9,4 @@ function Meals() {
   );
 }
 
-export default Meals;
-
-// requisitos 2-6: Aline, Nicola, Samara, Camila, Patrick
+export default DoneRecipes;
