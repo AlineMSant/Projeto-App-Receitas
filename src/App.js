@@ -16,11 +16,9 @@ function App() {
       <Route exact path="/" component={ Login } />
       <Route path="/meals" component={ Meals } />
       <Route path="/drinks" component={ Drinks } />
-      {/* Manter Meals e Drinks, excluir recipes */}
       <Route path="/profile" component={ Profile } />
       <Route path="/done-recipes" component={ DoneRecipes } />
       <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-
       {/* <Route path="*" component={ NotFound } /> */}
 
     </Switch>
