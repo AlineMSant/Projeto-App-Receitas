@@ -6,7 +6,7 @@ import App from '../App';
 import { AppProvider } from '../context/AppProvider';
 import { RecipesProvider } from '../context/Recipes.Provider';
 
-const mockFetch = require('./helpers/mockFetch');
+// const mockFetch = require('./helpers/mockFetch');
 // import mockFetch from './helpers/mockFetch';
 
 describe('Testa o componente Header', () => {
