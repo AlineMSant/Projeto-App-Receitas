@@ -4,6 +4,10 @@ import { renderWithRouter } from './helpers/renderWithRouter';
 import Header from '../components/Header';
 import App from '../App';
 import { AppProvider } from '../context/AppProvider';
+import { RecipesProvider } from '../context/Recipes.Provider';
+
+// const mockFetch = require('./helpers/mockFetch');
+// import mockFetch from './helpers/mockFetch';
 
 describe('Testa o componente Header', () => {
   const searchInput = 'search-input';
@@ -59,28 +63,31 @@ describe('Testa o componente Header', () => {
     expect(searchElement).toHaveAttribute('type', 'text');
   });
 
-  it('Verifica se as diferentes rotas são renderizadas corretamente', () => {
+  it('Verifica se as diferentes rotas são renderizadas corretamente', async () => {
+    // jest.spyOn(global, 'fetch').mockImplementation(mockFetch);
     const { history } = renderWithRouter(
-      <AppProvider>
-        <App />
-      </AppProvider>,
+      <RecipesProvider>
+        <AppProvider>
+          <App />
+        </AppProvider>
+      </RecipesProvider>,
     );
 
-    act(() => {
+    await act(async () => {
       history.push('/drinks');
     });
 
     const pageTitleDrinks = screen.getByTestId(pageTitleId);
     expect(pageTitleDrinks).toHaveTextContent('Drinks');
 
-    act(() => {
+    await act(async () => {
       history.push('/done-recipes');
     });
 
     const pageTitleDoneRecipes = screen.getByTestId(pageTitleId);
     expect(pageTitleDoneRecipes).toHaveTextContent('Done Recipes');
 
-    act(() => {
+    await act(async () => {
       history.push('/favorite-recipes');
     });
 
