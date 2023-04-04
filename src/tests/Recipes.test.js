@@ -1,5 +1,5 @@
 import React from 'react';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 import { screen, act } from '@testing-library/react';
 import { renderWithRouter } from './helpers/renderWithRouter';
 import App from '../App';
@@ -9,7 +9,7 @@ import { RecipesProvider } from '../context/Recipes.Provider';
 // const mockFetch = require('./helpers/mockFetch');
 
 describe('Testa o componente Recipes', () => {
-  it.only('Verifica se o componente é renderizado corretamente', async () => {
+  it('Verifica se o componente é renderizado corretamente', async () => {
     // jest.spyOn(global, 'fetch').mockImplementation(mockFetch('https://www.themealdb.com/api/json/v1/1/search.php?s='));
 
     const { history } = renderWithRouter(
