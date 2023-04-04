@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { fetchMeals, fetchDrinks } from '../services/fetchAPI';
 import RecipesContext from '../context/RecipesContext';
+import Footer from './Footer';
 
 export default function Recipes() {
   const { meals, setMeals, drinks, setDrinks } = useContext(RecipesContext);
@@ -66,6 +67,8 @@ export default function Recipes() {
           />
         </div>
       )))}
+
+      <Footer />
     </>
   );
 }
