@@ -27,3 +27,12 @@ function App() {
 }
 
 export default App;
+
+// Requisito 2/3/5/6/20: Aline, Nicola, Camila, Patrick, Samara;
+// Requisito 7/8: Patrick;
+// Requisito 9: Aline, NIcola, Patrick, Samara;
+// Requisito 10: Aline, Camila;
+// Requisito 11: Aline;
+// Requisito 16/18: Aline, Nicola;
+// Requisito 17: Nicola;
+// Requisito 19: Samara;

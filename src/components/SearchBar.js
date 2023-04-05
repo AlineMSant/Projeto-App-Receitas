@@ -1,62 +1,75 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import RecipesContext from '../context/RecipesContext';
+import { fetchSearchIngredient,
+  fetchSearchName,
+  fetchSearchFirstLetter } from '../services/fetchAPI';
 
 function SearchBar() {
-  const [searchType, setSearchType] = useState('name');
-  const [searchTerm, setSearchTerm] = useState('');
+  const { setMeals, searchTerm, searchType, setSearchType } = useContext(RecipesContext);
 
-  const handleSearchType = (event) => {
-    setSearchType(event.target.value);
+  const handleSearchType = (value) => {
+    setSearchType(value);
   };
 
-  const handlesearchTerm = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  const handleClickSearch = async () => {
+    const first = 'first-letter';
 
-  const handleSearch = () => {
-    // Handle search logic here
+    if (searchType === 'name') {
+      const fetchName = await fetchSearchName(searchTerm);
+      setMeals(fetchName);
+    } else if (searchType === 'ingredient') {
+      const fetchIgredient = await fetchSearchIngredient(searchTerm);
+      setMeals(fetchIgredient);
+    } else if (searchType === first && searchTerm.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    } else if (searchType === first) {
+      const fetchFirstLetter = await fetchSearchFirstLetter(searchTerm);
+      setMeals(fetchFirstLetter);
+    }
   };
 
   return (
     <div>
       <form>
-        <label>
+        <label htmlFor="searchName">
           <input
             type="radio"
-            name="search-type"
+            id="searchName"
+            name="searchName"
             value="name"
             data-testid="name-search-radio"
             checked={ searchType === 'name' }
-            onChange={ handleSearchType }
+            onChange={ (e) => handleSearchType(e.target.value) }
           />
-          Procurar por nome
+          Name
         </label>
-        <label>
+        <label htmlFor="searchIngredient">
           <input
             type="radio"
-            name="search-type"
+            id="searchIngredient"
+            name="searchIngredient"
             value="ingredient"
             data-testid="ingredient-search-radio"
             checked={ searchType === 'ingredient' }
-            onChange={ handleSearchType }
+            onChange={ (e) => handleSearchType(e.target.value) }
           />
-          Procurar por ingrediente
+          Ingredient
         </label>
-        <input
-          type="radio"
-          name="search-type"
-          value="first-letter"
-          data-testid="first-letter-search-radio"
-          checked={ searchType === 'first-letter' }
-          onChange={ handleSearchType }
-        />
-        <input
-          type="text"
-          value={ searchTerm }
-          onChange={ handlesearchTerm }
-        />
+        <label htmlFor="searchFirst">
+          <input
+            type="radio"
+            id="searchFirst"
+            name="searchFirst"
+            value="first-letter"
+            data-testid="first-letter-search-radio"
+            checked={ searchType === 'first-letter' }
+            onChange={ (e) => handleSearchType(e.target.value) }
+          />
+          First letter
+        </label>
         <button
           type="button"
-          onClick={ handleSearch }
+          onClick={ handleClickSearch }
           data-testid="exec-search-btn"
         >
           Procurar

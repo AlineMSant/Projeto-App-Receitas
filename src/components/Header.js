@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import RecipesContext from '../context/RecipesContext';
 import ProfileIcon from '../images/profileIcon.svg';
 import SearchIcon from '../images/searchIcon.svg';
 
@@ -7,6 +8,7 @@ function Header() {
   const route = useLocation();
   const history = useHistory();
   const [showSearchInput, setShowSearchInput] = useState(false);
+  const { setSearchTerm } = useContext(RecipesContext);
 
   function getPageTitle(pathname) {
     switch (pathname) {
@@ -32,6 +34,10 @@ function Header() {
     '/done-recipes',
     '/favorite-recipes',
   ].includes(route.pathname);
+
+  const handleSearchTerm = (value) => {
+    setSearchTerm(value);
+  };
 
   return (
     <>
@@ -64,6 +70,7 @@ function Header() {
           <input
             data-testid="search-input"
             type="text"
+            onChange={ (e) => handleSearchTerm(e.target.value) }
           />
         ) }
       </div>
