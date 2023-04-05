@@ -19,6 +19,28 @@ function SearchBar() {
     setSearchType(value);
   };
 
+  const reduceArrayMeals = (fetch) => {
+    const number = 11;
+    if (fetch.length > number) {
+      const arrayMeals = [];
+      for (let i = 0; i <= number; i += 1) {
+        arrayMeals.push(fetch[i]);
+      }
+      setMeals(arrayMeals);
+    }
+  };
+
+  const reduceArrayDrinks = (fetch) => {
+    const number = 11;
+    if (fetch.length > number) {
+      const arrayDrinks = [];
+      for (let i = 0; i <= number; i += 1) {
+        arrayDrinks.push(fetch[i]);
+      }
+      setDrinks(arrayDrinks);
+    }
+  };
+
   const handleClickSearch = async () => {
     const first = 'first-letter';
 
@@ -26,14 +48,17 @@ function SearchBar() {
       if (searchType === 'name') {
         const fetchName = await fetchSearchName(searchTerm);
         setMeals(fetchName);
+        reduceArrayMeals(fetchName);
       } else if (searchType === 'ingredient') {
         const fetchIgredient = await fetchSearchIngredient(searchTerm);
         setMeals(fetchIgredient);
+        reduceArrayMeals(fetchIgredient);
       } else if (searchType === first && searchTerm.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       } else if (searchType === first) {
         const fetchFirstLetter = await fetchSearchFirstLetter(searchTerm);
         setMeals(fetchFirstLetter);
+        reduceArrayMeals(fetchFirstLetter);
       }
     }
 
@@ -41,14 +66,17 @@ function SearchBar() {
       if (searchType === 'name') {
         const fetchName = await fetchSearchNameDrinks(searchTerm);
         setDrinks(fetchName);
+        reduceArrayDrinks(fetchName);
       } else if (searchType === 'ingredient') {
         const fetchIgredient = await fetchSearchIngredientDrinks(searchTerm);
         setDrinks(fetchIgredient);
+        reduceArrayDrinks(fetchIgredient);
       } else if (searchType === first && searchTerm.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       } else if (searchType === first) {
         const fetchFirstLetter = await fetchSearchFirstLetterDrinks(searchTerm);
         setDrinks(fetchFirstLetter);
+        reduceArrayDrinks(fetchFirstLetter);
       }
     }
   };
