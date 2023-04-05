@@ -41,28 +41,16 @@ describe('Testa SearchBar', () => {
     const titleFirstRecipeNoFilter = await screen.findByText('Corba');
     expect(titleFirstRecipeNoFilter).toBeVisible();
 
-    userEvent.type(inputSearch, 'sushi');
-    userEvent.click(radioName);
-    userEvent.click(buttonSearch);
-
-    await waitForElementToBeRemoved(titleFirstRecipeNoFilter);
-    // tem que alterar quando redirecionar
-    const titleFirstRecipeFilteredName = screen.getByText('Sushi');
-
-    expect(titleFirstRecipeNoFilter).not.toBeVisible();
-    expect(titleFirstRecipeFilteredName).toBeVisible();
-
-    userEvent.clear(inputSearch);
     userEvent.type(inputSearch, 'flour');
     userEvent.click(radioIngredient);
     userEvent.click(buttonSearch);
 
-    await waitForElementToBeRemoved(titleFirstRecipeFilteredName);
+    await waitForElementToBeRemoved(titleFirstRecipeNoFilter);
 
     const titleFirstRecipeFilteredIngredient = screen.getByText('Apam balik');
 
+    expect(titleFirstRecipeNoFilter).not.toBeVisible();
     expect(titleFirstRecipeFilteredIngredient).toBeVisible();
-    expect(titleFirstRecipeFilteredName).not.toBeVisible();
 
     userEvent.clear(inputSearch);
     userEvent.type(inputSearch, 'p');
@@ -75,6 +63,18 @@ describe('Testa SearchBar', () => {
 
     expect(titleFirstRecipeFilteredFirst).toBeVisible();
     expect(titleFirstRecipeFilteredIngredient).not.toBeVisible();
+
+    userEvent.clear(inputSearch);
+    userEvent.type(inputSearch, 'sushi');
+    userEvent.click(radioName);
+    userEvent.click(buttonSearch);
+
+    await waitForElementToBeRemoved(titleFirstRecipeFilteredFirst);
+
+    const titleRecipeDetails = await screen.findByText('Recipe Details');
+
+    expect(titleFirstRecipeFilteredFirst).not.toBeVisible();
+    expect(titleRecipeDetails).toBeVisible();
 
     // falta testar alert
   });
@@ -94,9 +94,9 @@ describe('Testa SearchBar', () => {
 
     expect(history.location.pathname).toBe('/drinks');
 
-    const buttonIconSearch = screen.getByTestId('search-top-btn');
+    const buttonIconSearchDrinks = screen.getByTestId('search-top-btn');
 
-    userEvent.click(buttonIconSearch);
+    userEvent.click(buttonIconSearchDrinks);
 
     const inputSearchDrinks = screen.getByTestId('search-input');
     const radioNameDrinks = screen.getByTestId('name-search-radio');
@@ -113,28 +113,17 @@ describe('Testa SearchBar', () => {
     const titleFirstRecipeNoFilterDrinks = await screen.findByText('GG');
     expect(titleFirstRecipeNoFilterDrinks).toBeVisible();
 
-    userEvent.type(inputSearchDrinks, 'Kir Royale');
-    userEvent.click(radioNameDrinks);
-    userEvent.click(buttonSearchDrinks);
-
-    await waitForElementToBeRemoved(titleFirstRecipeNoFilterDrinks);
-    // tem que alterar quando redirecionar
-    const titleFirstRecipeFilteredNameDrinks = screen.getByText('Kir Royale');
-
-    expect(titleFirstRecipeNoFilterDrinks).not.toBeVisible();
-    expect(titleFirstRecipeFilteredNameDrinks).toBeVisible();
-
     userEvent.clear(inputSearchDrinks);
     userEvent.type(inputSearchDrinks, 'kiwi');
     userEvent.click(radioIngredientDrinks);
     userEvent.click(buttonSearchDrinks);
 
-    await waitForElementToBeRemoved(titleFirstRecipeFilteredNameDrinks);
+    await waitForElementToBeRemoved(titleFirstRecipeNoFilterDrinks);
 
     const titleFirstRecipeFilteredIngredientDrinks = screen.getByText('Kiwi Martini');
 
     expect(titleFirstRecipeFilteredIngredientDrinks).toBeVisible();
-    expect(titleFirstRecipeFilteredNameDrinks).not.toBeVisible();
+    expect(titleFirstRecipeNoFilterDrinks).not.toBeVisible();
 
     userEvent.clear(inputSearchDrinks);
     userEvent.type(inputSearchDrinks, 'p');
@@ -147,6 +136,18 @@ describe('Testa SearchBar', () => {
 
     expect(titleFirstRecipeFilteredFirstDrinks).toBeVisible();
     expect(titleFirstRecipeFilteredIngredientDrinks).not.toBeVisible();
+
+    userEvent.clear(inputSearchDrinks);
+    userEvent.type(inputSearchDrinks, 'Kir Royale');
+    userEvent.click(radioNameDrinks);
+    userEvent.click(buttonSearchDrinks);
+
+    await waitForElementToBeRemoved(titleFirstRecipeFilteredFirstDrinks);
+
+    const titleRecipeDetailsDrinks = await screen.findByText('Recipe Details');
+
+    expect(titleFirstRecipeFilteredFirstDrinks).not.toBeVisible();
+    expect(titleRecipeDetailsDrinks).toBeVisible();
 
     // falta testar alert
   });
