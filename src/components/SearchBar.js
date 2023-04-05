@@ -1,11 +1,19 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import { fetchSearchIngredient,
+import {
+  fetchSearchIngredient,
   fetchSearchName,
-  fetchSearchFirstLetter } from '../services/fetchAPI';
+  fetchSearchFirstLetter,
+  fetchSearchNameDrinks,
+  fetchSearchFirstLetterDrinks,
+  fetchSearchIngredientDrinks } from '../services/fetchAPI';
 
 function SearchBar() {
-  const { setMeals, searchTerm, searchType, setSearchType } = useContext(RecipesContext);
+  const { setMeals, setDrinks,
+    searchTerm, searchType, setSearchType } = useContext(RecipesContext);
+  const { location } = useHistory();
+  const routeMealsOrDrinks = location.pathname;
 
   const handleSearchType = (value) => {
     setSearchType(value);
@@ -14,17 +22,34 @@ function SearchBar() {
   const handleClickSearch = async () => {
     const first = 'first-letter';
 
-    if (searchType === 'name') {
-      const fetchName = await fetchSearchName(searchTerm);
-      setMeals(fetchName);
-    } else if (searchType === 'ingredient') {
-      const fetchIgredient = await fetchSearchIngredient(searchTerm);
-      setMeals(fetchIgredient);
-    } else if (searchType === first && searchTerm.length > 1) {
-      global.alert('Your search must have only 1 (one) character');
-    } else if (searchType === first) {
-      const fetchFirstLetter = await fetchSearchFirstLetter(searchTerm);
-      setMeals(fetchFirstLetter);
+    if (routeMealsOrDrinks === '/meals') {
+      if (searchType === 'name') {
+        const fetchName = await fetchSearchName(searchTerm);
+        setMeals(fetchName);
+      } else if (searchType === 'ingredient') {
+        const fetchIgredient = await fetchSearchIngredient(searchTerm);
+        setMeals(fetchIgredient);
+      } else if (searchType === first && searchTerm.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      } else if (searchType === first) {
+        const fetchFirstLetter = await fetchSearchFirstLetter(searchTerm);
+        setMeals(fetchFirstLetter);
+      }
+    }
+
+    if (routeMealsOrDrinks === '/drinks') {
+      if (searchType === 'name') {
+        const fetchName = await fetchSearchNameDrinks(searchTerm);
+        setDrinks(fetchName);
+      } else if (searchType === 'ingredient') {
+        const fetchIgredient = await fetchSearchIngredientDrinks(searchTerm);
+        setDrinks(fetchIgredient);
+      } else if (searchType === first && searchTerm.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      } else if (searchType === first) {
+        const fetchFirstLetter = await fetchSearchFirstLetterDrinks(searchTerm);
+        setDrinks(fetchFirstLetter);
+      }
     }
   };
 
