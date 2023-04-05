@@ -7,7 +7,7 @@ import App from '../App';
 import { AppProvider } from '../context/AppProvider';
 
 describe('Testa SearchBar', () => {
-  it('Verifica se ao pesquisar por Name INgredient ou First Letter é renderizado corretamente', async () => {
+  it('Verifica se ao pesquisar por Name Ingredient ou First Letter é renderizado corretamente', async () => {
     const { history } = renderWithRouter(
       <RecipesProvider>
         <AppProvider>
@@ -51,5 +51,31 @@ describe('Testa SearchBar', () => {
 
     expect(titleFirstRecipeNoFilter).not.toBeVisible();
     expect(titleFirstRecipeFilteredName).toBeVisible();
+
+    userEvent.clear(inputSearch);
+    userEvent.type(inputSearch, 'flour');
+    userEvent.click(radioIngredient);
+    userEvent.click(buttonSearch);
+
+    await waitForElementToBeRemoved(titleFirstRecipeFilteredName);
+
+    const titleFirstRecipeFilteredIngredient = screen.getByText('Apam balik');
+
+    expect(titleFirstRecipeFilteredIngredient).toBeVisible();
+    expect(titleFirstRecipeFilteredName).not.toBeVisible();
+
+    userEvent.clear(inputSearch);
+    userEvent.type(inputSearch, 'p');
+    userEvent.click(radioFisrt);
+    userEvent.click(buttonSearch);
+
+    await waitForElementToBeRemoved(titleFirstRecipeFilteredIngredient);
+
+    const titleFirstRecipeFilteredFirst = screen.getByText('Pad See Ew');
+
+    expect(titleFirstRecipeFilteredFirst).toBeVisible();
+    expect(titleFirstRecipeFilteredIngredient).not.toBeVisible();
+
+    // falta testar alert
   });
 });
