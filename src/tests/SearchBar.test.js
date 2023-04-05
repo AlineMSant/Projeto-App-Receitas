@@ -7,7 +7,7 @@ import App from '../App';
 import { AppProvider } from '../context/AppProvider';
 
 describe('Testa SearchBar', () => {
-  it('Verifica se ao pesquisar por Name Ingredient ou First Letter é renderizado corretamente', async () => {
+  it('Verifica se ao pesquisar por Name Ingredient ou First Letter é renderizado corretamente em meals', async () => {
     const { history } = renderWithRouter(
       <RecipesProvider>
         <AppProvider>
@@ -46,7 +46,7 @@ describe('Testa SearchBar', () => {
     userEvent.click(buttonSearch);
 
     await waitForElementToBeRemoved(titleFirstRecipeNoFilter);
-
+    // tem que alterar quando redirecionar
     const titleFirstRecipeFilteredName = screen.getByText('Sushi');
 
     expect(titleFirstRecipeNoFilter).not.toBeVisible();
@@ -75,6 +75,78 @@ describe('Testa SearchBar', () => {
 
     expect(titleFirstRecipeFilteredFirst).toBeVisible();
     expect(titleFirstRecipeFilteredIngredient).not.toBeVisible();
+
+    // falta testar alert
+  });
+
+  it('Verifica se ao pesquisar por Name Ingredient ou First Letter é renderizado corretamente em drinks', async () => {
+    const { history } = renderWithRouter(
+      <RecipesProvider>
+        <AppProvider>
+          <App />
+        </AppProvider>
+      </RecipesProvider>,
+    );
+
+    await act(async () => {
+      history.push('/drinks');
+    });
+
+    expect(history.location.pathname).toBe('/drinks');
+
+    const buttonIconSearch = screen.getByTestId('search-top-btn');
+
+    userEvent.click(buttonIconSearch);
+
+    const inputSearchDrinks = screen.getByTestId('search-input');
+    const radioNameDrinks = screen.getByTestId('name-search-radio');
+    const radioIngredientDrinks = screen.getByTestId('ingredient-search-radio');
+    const radioFisrtDrinks = screen.getByTestId('first-letter-search-radio');
+    const buttonSearchDrinks = screen.getByTestId('exec-search-btn');
+
+    expect(inputSearchDrinks).toBeVisible();
+    expect(radioNameDrinks).toBeVisible();
+    expect(radioIngredientDrinks).toBeVisible();
+    expect(radioFisrtDrinks).toBeVisible();
+    expect(buttonSearchDrinks).toBeVisible();
+
+    const titleFirstRecipeNoFilterDrinks = await screen.findByText('GG');
+    expect(titleFirstRecipeNoFilterDrinks).toBeVisible();
+
+    userEvent.type(inputSearchDrinks, 'Kir Royale');
+    userEvent.click(radioNameDrinks);
+    userEvent.click(buttonSearchDrinks);
+
+    await waitForElementToBeRemoved(titleFirstRecipeNoFilterDrinks);
+    // tem que alterar quando redirecionar
+    const titleFirstRecipeFilteredNameDrinks = screen.getByText('Kir Royale');
+
+    expect(titleFirstRecipeNoFilterDrinks).not.toBeVisible();
+    expect(titleFirstRecipeFilteredNameDrinks).toBeVisible();
+
+    userEvent.clear(inputSearchDrinks);
+    userEvent.type(inputSearchDrinks, 'kiwi');
+    userEvent.click(radioIngredientDrinks);
+    userEvent.click(buttonSearchDrinks);
+
+    await waitForElementToBeRemoved(titleFirstRecipeFilteredNameDrinks);
+
+    const titleFirstRecipeFilteredIngredientDrinks = screen.getByText('Kiwi Martini');
+
+    expect(titleFirstRecipeFilteredIngredientDrinks).toBeVisible();
+    expect(titleFirstRecipeFilteredNameDrinks).not.toBeVisible();
+
+    userEvent.clear(inputSearchDrinks);
+    userEvent.type(inputSearchDrinks, 'p');
+    userEvent.click(radioFisrtDrinks);
+    userEvent.click(buttonSearchDrinks);
+
+    await waitForElementToBeRemoved(titleFirstRecipeFilteredIngredientDrinks);
+
+    const titleFirstRecipeFilteredFirstDrinks = screen.getByText('Paloma');
+
+    expect(titleFirstRecipeFilteredFirstDrinks).toBeVisible();
+    expect(titleFirstRecipeFilteredIngredientDrinks).not.toBeVisible();
 
     // falta testar alert
   });
