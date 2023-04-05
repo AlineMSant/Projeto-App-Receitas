@@ -34,5 +34,5 @@ export default App;
 // Requisito 10: Aline, Camila;
 // Requisito 11: Aline;
 // Requisito 16/18: Aline, Nicola;
-// Requisito 17: Patrick;
+// Requisito 17: Nicola;
 // Requisito 19: Samara;
