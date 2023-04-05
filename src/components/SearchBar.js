@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import {
@@ -10,10 +10,10 @@ import {
   fetchSearchIngredientDrinks } from '../services/fetchAPI';
 
 function SearchBar() {
-  const { setMeals, setDrinks,
+  const { setMeals, setDrinks, meals, drinks,
     searchTerm, searchType, setSearchType } = useContext(RecipesContext);
-  const { location } = useHistory();
-  const routeMealsOrDrinks = location.pathname;
+  const history = useHistory();
+  const routeMealsOrDrinks = history.location.pathname;
 
   const handleSearchType = (value) => {
     setSearchType(value);
@@ -52,6 +52,15 @@ function SearchBar() {
       }
     }
   };
+
+  useEffect(() => {
+    if (meals.length === 1) {
+      history.push(`/meals/${meals[0].idMeal}`);
+    } else if (drinks.length === 1) {
+      history.push(`/drinks/${drinks[0].idDrink}`);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [meals, drinks]);
 
   return (
     <div>
