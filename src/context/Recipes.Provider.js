@@ -7,6 +7,8 @@ export function RecipesProvider({ children }) {
   const [drinks, setDrinks] = useState([]);
   const [categoriesMeals, setCategoriesMeals] = useState([]);
   const [categoriesDrinks, setCategoriesDrinks] = useState([]);
+  const [searchType, setSearchType] = useState('name');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const context = useMemo(() => ({
     meals,
@@ -17,7 +19,11 @@ export function RecipesProvider({ children }) {
     setCategoriesMeals,
     categoriesDrinks,
     setCategoriesDrinks,
-  }), [meals, drinks, categoriesMeals, categoriesDrinks]);
+    searchType,
+    setSearchType,
+    searchTerm,
+    setSearchTerm,
+  }), [meals, drinks, categoriesMeals, categoriesDrinks, searchType, searchTerm]);
 
   return (
     <RecipesContext.Provider value={ context }>
