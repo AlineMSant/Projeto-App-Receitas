@@ -14,7 +14,11 @@ describe('Testa o componente Header', () => {
   const pageTitleId = 'page-title';
   it('Verifica se o componente é renderizado corretamente', () => {
     renderWithRouter(
-      <Header />,
+      <RecipesProvider>
+        <AppProvider>
+          <Header />
+        </AppProvider>
+      </RecipesProvider>,
     );
 
     const pageTitle = screen.getByTestId(pageTitleId);
@@ -26,7 +30,11 @@ describe('Testa o componente Header', () => {
 
   it('Verifica se redireciona para a página correta ao clicar no botão profile', () => {
     const { history } = renderWithRouter(
-      <Header />,
+      <RecipesProvider>
+        <AppProvider>
+          <Header />
+        </AppProvider>
+      </RecipesProvider>,
     );
 
     const profileBtn = screen.getByTestId('profile-top-btn');
@@ -38,7 +46,11 @@ describe('Testa o componente Header', () => {
 
   it('Verifica se o botão de busca mostra/esconde a barra de busca ao ser clicado', () => {
     renderWithRouter(
-      <Header />,
+      <RecipesProvider>
+        <AppProvider>
+          <Header />
+        </AppProvider>
+      </RecipesProvider>,
     );
 
     const searchBtn = screen.getByTestId('search-top-btn');
@@ -52,7 +64,11 @@ describe('Testa o componente Header', () => {
 
   it('Verifica se a barra de busca é renderizada corretamente', () => {
     renderWithRouter(
-      <Header />,
+      <RecipesProvider>
+        <AppProvider>
+          <Header />
+        </AppProvider>
+      </RecipesProvider>,
     );
 
     const searchBtn = screen.getByTestId('search-top-btn');
