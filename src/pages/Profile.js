@@ -5,7 +5,7 @@ import Header from '../components/Header';
 
 function Profile() {
   const history = useHistory();
-  const emailLocalStorage = JSON.parse(localStorage.getItem('user')).email;
+  const emailLocalStorage = JSON.parse(localStorage.getItem('user'));
 
   const handleClickLogout = () => {
     // https://developer.mozilla.org/pt-BR/docs/Web/API/Storage/clear
@@ -17,7 +17,10 @@ function Profile() {
     <div>
       <Header />
 
-      <h4 data-testid="profile-email">{emailLocalStorage}</h4>
+      { emailLocalStorage && (
+        <h4 data-testid="profile-email">
+          {emailLocalStorage.email}
+        </h4>) }
 
       <button
         type="button"
