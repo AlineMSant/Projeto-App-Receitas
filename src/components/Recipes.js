@@ -92,6 +92,16 @@ export default function Recipes() {
     }
   };
 
+  const handleClearFilter = () => {
+    if (route === '/meals') {
+      requestAPIMeals();
+    }
+    if (route === '/drinks') {
+      requestAPIDrinks();
+    }
+    setSelectedCategory(null);
+  };
+
   useEffect(() => {
     if (route === '/meals') {
       requestAPIMeals();
@@ -135,6 +145,13 @@ export default function Recipes() {
           </button>
         </div>
       ))) }
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ () => handleClearFilter() }
+      >
+        All
+      </button>
       {(route === '/meals' && meals !== undefined) && (meals.length > 0 && meals
         .map((meal, index) => index < numberMax && (
           <div key={ index }>
