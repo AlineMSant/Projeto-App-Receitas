@@ -9,6 +9,7 @@ export function RecipesProvider({ children }) {
   const [categoriesDrinks, setCategoriesDrinks] = useState([]);
   const [searchType, setSearchType] = useState('name');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const context = useMemo(() => ({
     meals,
@@ -23,7 +24,17 @@ export function RecipesProvider({ children }) {
     setSearchType,
     searchTerm,
     setSearchTerm,
-  }), [meals, drinks, categoriesMeals, categoriesDrinks, searchType, searchTerm]);
+    selectedCategory,
+    setSelectedCategory,
+  }), [
+    meals,
+    drinks,
+    categoriesMeals,
+    categoriesDrinks,
+    searchType,
+    searchTerm,
+    selectedCategory,
+  ]);
 
   return (
     <RecipesContext.Provider value={ context }>

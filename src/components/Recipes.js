@@ -3,7 +3,9 @@ import { useHistory } from 'react-router-dom';
 import { fetchMeals,
   fetchDrinks,
   fetchCategoryMeals,
-  fetchCategoryDrinks } from '../services/fetchAPI';
+  fetchCategoryDrinks,
+  fetchSelectedCategoryMeals,
+  fetchSelectedCategoryDrinks } from '../services/fetchAPI';
 import RecipesContext from '../context/RecipesContext';
 import Footer from './Footer';
 
@@ -16,6 +18,8 @@ export default function Recipes() {
     setCategoriesMeals,
     categoriesDrinks,
     setCategoriesDrinks,
+    // selectedCategory,
+    setSelectedCategory,
   } = useContext(RecipesContext);
 
   const numberOfRecipes = 11;
@@ -59,6 +63,45 @@ export default function Recipes() {
     setCategoriesDrinks(arrayOfCategoriesDrinks);
   };
 
+  const requestSelectedCategoryMeals = async (category) => {
+    const result = await fetchSelectedCategoryMeals(category);
+    const arrayOfMeals = [];
+    for (let i = 0; i <= numberOfRecipes; i += 1) {
+      arrayOfMeals.push(result[i]);
+    }
+    setMeals(arrayOfMeals);
+  };
+
+  const requestSelectedCategoryDrinks = async (category) => {
+    const result = await fetchSelectedCategoryDrinks(category);
+    const arrayOfDrinks = [];
+    for (let i = 0; i <= numberOfRecipes; i += 1) {
+      arrayOfDrinks.push(result[i]);
+    }
+    setDrinks(arrayOfDrinks);
+  };
+
+  const handleCategoryClick = (category) => {
+    if (route === '/meals') {
+      setSelectedCategory(category);
+      requestSelectedCategoryMeals(category);
+    }
+    if (route === '/drinks') {
+      setSelectedCategory(category);
+      requestSelectedCategoryDrinks(category);
+    }
+  };
+
+  const handleClearFilter = () => {
+    if (route === '/meals') {
+      requestAPIMeals();
+    }
+    if (route === '/drinks') {
+      requestAPIDrinks();
+    }
+    setSelectedCategory(null);
+  };
+
   useEffect(() => {
     if (route === '/meals') {
       requestAPIMeals();
@@ -83,6 +126,7 @@ export default function Recipes() {
           <button
             type="button"
             data-testid={ `${category}-category-filter` }
+            onClick={ () => handleCategoryClick(category) }
           >
             {category}
           </button>
@@ -95,37 +139,53 @@ export default function Recipes() {
           <button
             type="button"
             data-testid={ `${category}-category-filter` }
+            onClick={ () => handleCategoryClick(category) }
           >
             {category}
           </button>
         </div>
       ))) }
-      {route === '/meals' && (meals.length > 0 && meals
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ () => handleClearFilter() }
+      >
+        All
+      </button>
+      {(route === '/meals' && meals !== undefined) && (meals.length > 0 && meals
         .map((meal, index) => index < numberMax && (
-          <div
-            data-testid={ `${index}-recipe-card` }
-            key={ meal.strMeal }
-          >
-            <p data-testid={ `${index}-card-name` }>{meal.strMeal}</p>
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ meal.strMealThumb }
-              alt={ meal.strMeal }
-            />
+          <div key={ index }>
+            { meal !== undefined && (
+              <div
+                data-testid={ `${index}-recipe-card` }
+                key={ index }
+              >
+                <p data-testid={ `${index}-card-name` }>{meal.strMeal}</p>
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={ meal.strMealThumb }
+                  alt={ meal.strMeal }
+                />
+              </div>
+            )}
           </div>
         ))) }
-      {route === '/drinks' && (drinks.length > 0 && drinks
+      {(route === '/drinks' && drinks !== undefined) && (drinks.length > 0 && drinks
         .map((drink, index) => index < numberMax && (
-          <div
-            data-testid={ `${index}-recipe-card` }
-            key={ drink.strDrink }
-          >
-            <p data-testid={ `${index}-card-name` }>{drink.strDrink}</p>
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ drink.strDrinkThumb }
-              alt={ drink.strDrink }
-            />
+          <div key={ index }>
+            { drink !== undefined && (
+              <div
+                data-testid={ `${index}-recipe-card` }
+                key={ index }
+              >
+                <p data-testid={ `${index}-card-name` }>{drink.strDrink}</p>
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={ drink.strDrinkThumb }
+                  alt={ drink.strDrink }
+                />
+              </div>
+            )}
           </div>
         ))) }
 
