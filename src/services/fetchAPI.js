@@ -54,10 +54,17 @@ export const fetchSearchFirstLetter = async (firstLetter) => {
 };
 
 export const fetchSearchIngredientDrinks = async (ingredient) => {
-  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`);
-  const data = await response.json();
+  try {
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`);
+    const data = await response.json();
 
-  return data.drinks;
+    return data.drinks;
+  } catch (error) {
+    if (error.message === 'Unexpected end of JSON input') {
+      return global.alert(ErrorMessage);
+    }
+    return error;
+  }
 };
 
 export const fetchSearchNameDrinks = async (name) => {
@@ -71,6 +78,20 @@ export const fetchSearchNameDrinks = async (name) => {
 
 export const fetchSearchFirstLetterDrinks = async (firstLetter) => {
   const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${firstLetter}`);
+  const data = await response.json();
+
+  return data.drinks;
+};
+
+export const fetchSelectedCategoryMeals = async (category) => {
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+  const data = await response.json();
+
+  return data.meals;
+};
+
+export const fetchSelectedCategoryDrinks = async (category) => {
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`);
   const data = await response.json();
 
   return data.drinks;
