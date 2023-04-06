@@ -71,6 +71,8 @@ export default function Recipes() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const numberMax = 12;
+
   return (
     <>
       <div>Recipes</div>
@@ -98,32 +100,34 @@ export default function Recipes() {
           </button>
         </div>
       ))) }
-      {route === '/meals' && (meals.map((meal, index) => (
-        <div
-          data-testid={ `${index}-recipe-card` }
-          key={ meal.strMeal }
-        >
-          <p data-testid={ `${index}-card-name` }>{meal.strMeal}</p>
-          <img
-            data-testid={ `${index}-card-img` }
-            src={ meal.strMealThumb }
-            alt={ meal.strMeal }
-          />
-        </div>
-      ))) }
-      {route === '/drinks' && (drinks.map((drink, index) => (
-        <div
-          data-testid={ `${index}-recipe-card` }
-          key={ drink.strDrink }
-        >
-          <p data-testid={ `${index}-card-name` }>{drink.strDrink}</p>
-          <img
-            data-testid={ `${index}-card-img` }
-            src={ drink.strDrinkThumb }
-            alt={ drink.strDrink }
-          />
-        </div>
-      ))) }
+      {route === '/meals' && (meals.length > 0 && meals
+        .map((meal, index) => index < numberMax && (
+          <div
+            data-testid={ `${index}-recipe-card` }
+            key={ meal.strMeal }
+          >
+            <p data-testid={ `${index}-card-name` }>{meal.strMeal}</p>
+            <img
+              data-testid={ `${index}-card-img` }
+              src={ meal.strMealThumb }
+              alt={ meal.strMeal }
+            />
+          </div>
+        ))) }
+      {route === '/drinks' && (drinks.length > 0 && drinks
+        .map((drink, index) => index < numberMax && (
+          <div
+            data-testid={ `${index}-recipe-card` }
+            key={ drink.strDrink }
+          >
+            <p data-testid={ `${index}-card-name` }>{drink.strDrink}</p>
+            <img
+              data-testid={ `${index}-card-img` }
+              src={ drink.strDrinkThumb }
+              alt={ drink.strDrink }
+            />
+          </div>
+        ))) }
 
       <Footer />
     </>

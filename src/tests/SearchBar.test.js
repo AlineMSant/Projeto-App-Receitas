@@ -8,6 +8,8 @@ import { AppProvider } from '../context/AppProvider';
 
 describe('Testa SearchBar', () => {
   it('Verifica se ao pesquisar por Name Ingredient ou First Letter é renderizado corretamente em meals', async () => {
+    window.alert = jest.fn();
+
     const { history } = renderWithRouter(
       <RecipesProvider>
         <AppProvider>
@@ -65,6 +67,13 @@ describe('Testa SearchBar', () => {
     expect(titleFirstRecipeFilteredIngredient).not.toBeVisible();
 
     userEvent.clear(inputSearch);
+    userEvent.type(inputSearch, 'pw');
+    userEvent.click(radioFisrt);
+    userEvent.click(buttonSearch);
+
+    expect(window.alert).toBeCalledWith('Your search must have only 1 (one) character');
+
+    userEvent.clear(inputSearch);
     userEvent.type(inputSearch, 'sushi');
     userEvent.click(radioName);
     userEvent.click(buttonSearch);
@@ -75,11 +84,10 @@ describe('Testa SearchBar', () => {
 
     expect(titleFirstRecipeFilteredFirst).not.toBeVisible();
     expect(titleRecipeDetails).toBeVisible();
-
-    // falta testar alert
   });
 
   it('Verifica se ao pesquisar por Name Ingredient ou First Letter é renderizado corretamente em drinks', async () => {
+    window.alert = jest.fn();
     const { history } = renderWithRouter(
       <RecipesProvider>
         <AppProvider>
@@ -120,7 +128,7 @@ describe('Testa SearchBar', () => {
 
     await waitForElementToBeRemoved(titleFirstRecipeNoFilterDrinks);
 
-    const titleFirstRecipeFilteredIngredientDrinks = screen.getByText('Kiwi Martini');
+    const titleFirstRecipeFilteredIngredientDrinks = await screen.findByText('Kiwi Martini');
 
     expect(titleFirstRecipeFilteredIngredientDrinks).toBeVisible();
     expect(titleFirstRecipeNoFilterDrinks).not.toBeVisible();
@@ -138,6 +146,13 @@ describe('Testa SearchBar', () => {
     expect(titleFirstRecipeFilteredIngredientDrinks).not.toBeVisible();
 
     userEvent.clear(inputSearchDrinks);
+    userEvent.type(inputSearchDrinks, 'pw');
+    userEvent.click(radioFisrtDrinks);
+    userEvent.click(buttonSearchDrinks);
+
+    expect(window.alert).toBeCalledWith('Your search must have only 1 (one) character');
+
+    userEvent.clear(inputSearchDrinks);
     userEvent.type(inputSearchDrinks, 'Kir Royale');
     userEvent.click(radioNameDrinks);
     userEvent.click(buttonSearchDrinks);
@@ -148,7 +163,5 @@ describe('Testa SearchBar', () => {
 
     expect(titleFirstRecipeFilteredFirstDrinks).not.toBeVisible();
     expect(titleRecipeDetailsDrinks).toBeVisible();
-
-    // falta testar alert
   });
 });

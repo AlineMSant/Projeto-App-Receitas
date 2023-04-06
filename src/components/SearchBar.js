@@ -54,9 +54,9 @@ function SearchBar() {
   };
 
   useEffect(() => {
-    if (meals.length === 1) {
+    if (meals && meals.length === 1) {
       history.push(`/meals/${meals[0].idMeal}`);
-    } else if (drinks.length === 1) {
+    } else if (drinks && drinks.length === 1) {
       history.push(`/drinks/${drinks[0].idDrink}`);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
