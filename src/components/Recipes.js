@@ -21,6 +21,7 @@ export default function Recipes() {
     setSelectedCategory,
     toggleBtn,
     setToggleBtn,
+    setSearchTerm,
   } = useContext(RecipesContext);
 
   const numberOfRecipes = 11;
@@ -66,24 +67,17 @@ export default function Recipes() {
 
   const requestSelectedCategoryMeals = async (category) => {
     const result = await fetchSelectedCategoryMeals(category);
-    const arrayOfMeals = [];
-    for (let i = 0; i <= numberOfRecipes; i += 1) {
-      arrayOfMeals.push(result[i]);
-    }
-    setMeals(arrayOfMeals);
+    setMeals(result);
   };
 
   const requestSelectedCategoryDrinks = async (category) => {
     const result = await fetchSelectedCategoryDrinks(category);
-    const arrayOfDrinks = [];
-    for (let i = 0; i <= numberOfRecipes; i += 1) {
-      arrayOfDrinks.push(result[i]);
-    }
-    setDrinks(arrayOfDrinks);
+    setDrinks(result);
   };
 
   // A função passa o teste porém a funcionalidade não muda de categoria de forma direta, para trocar é preciso clicar duas vezes na categoria desejada.
   const handleCategoryClick = (category) => {
+    setSearchTerm('');
     if (route === '/meals' && toggleBtn === false) {
       setSelectedCategory(category);
       requestSelectedCategoryMeals(category);
@@ -165,43 +159,35 @@ export default function Recipes() {
       </button>
       {(route === '/meals' && meals !== undefined) && (meals.length > 0 && meals
         .map((meal, index) => index < numberMax && (
-          <div key={ index }>
-            { meal !== undefined && (
-              <Link to={ `/meals/${meal.idMeal}` }>
-                <div
-                  data-testid={ `${index}-recipe-card` }
-                  key={ index }
-                >
-                  <h6 data-testid={ `${index}-card-name` }>{meal.strMeal}</h6>
-                  <img
-                    data-testid={ `${index}-card-img` }
-                    src={ meal.strMealThumb }
-                    alt={ meal.strMeal }
-                  />
-                </div>
-              </Link>
-            )}
-          </div>
+          <Link to={ `/meals/${meal.idMeal}` } key={ meal.idMeal }>
+            <div
+              data-testid={ `${index}-recipe-card` }
+              key={ meal.idMeal }
+            >
+              <h6 data-testid={ `${index}-card-name` }>{meal.strMeal}</h6>
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ meal.strMealThumb }
+                alt={ meal.strMeal }
+              />
+            </div>
+          </Link>
         ))) }
       {(route === '/drinks' && drinks !== undefined) && (drinks.length > 0 && drinks
         .map((drink, index) => index < numberMax && (
-          <div key={ index }>
-            { drink !== undefined && (
-              <Link to={ `/drinks/${drink.idDrink}` }>
-                <div
-                  data-testid={ `${index}-recipe-card` }
-                  key={ index }
-                >
-                  <h6 data-testid={ `${index}-card-name` }>{drink.strDrink}</h6>
-                  <img
-                    data-testid={ `${index}-card-img` }
-                    src={ drink.strDrinkThumb }
-                    alt={ drink.strDrink }
-                  />
-                </div>
-              </Link>
-            )}
-          </div>
+          <Link to={ `/drinks/${drink.idDrink}` } key={ drink.idDrink }>
+            <div
+              data-testid={ `${index}-recipe-card` }
+              key={ drink.idDrink }
+            >
+              <h6 data-testid={ `${index}-card-name` }>{drink.strDrink}</h6>
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ drink.strDrinkThumb }
+                alt={ drink.strDrink }
+              />
+            </div>
+          </Link>
         ))) }
 
       <Footer />
