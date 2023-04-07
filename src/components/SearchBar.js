@@ -10,8 +10,15 @@ import {
   fetchSearchIngredientDrinks } from '../services/fetchAPI';
 
 function SearchBar() {
-  const { setMeals, setDrinks, meals, drinks,
-    searchTerm, searchType, setSearchType } = useContext(RecipesContext);
+  const {
+    setMeals,
+    setDrinks,
+    meals,
+    drinks,
+    searchTerm,
+    searchType,
+    setSearchType,
+  } = useContext(RecipesContext);
   const history = useHistory();
   const routeMealsOrDrinks = history.location.pathname;
 
@@ -54,9 +61,9 @@ function SearchBar() {
   };
 
   useEffect(() => {
-    if (meals && meals.length === 1) {
+    if (meals && meals.length === 1 && searchTerm.length > 0) {
       history.push(`/meals/${meals[0].idMeal}`);
-    } else if (drinks && drinks.length === 1) {
+    } else if (drinks && drinks.length === 1 && searchTerm.length > 0) {
       history.push(`/drinks/${drinks[0].idDrink}`);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -10,6 +10,7 @@ export function RecipesProvider({ children }) {
   const [searchType, setSearchType] = useState('name');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [toggleBtn, setToggleBtn] = useState(false);
 
   const context = useMemo(() => ({
     meals,
@@ -26,6 +27,8 @@ export function RecipesProvider({ children }) {
     setSearchTerm,
     selectedCategory,
     setSelectedCategory,
+    toggleBtn,
+    setToggleBtn,
   }), [
     meals,
     drinks,
@@ -34,6 +37,7 @@ export function RecipesProvider({ children }) {
     searchType,
     searchTerm,
     selectedCategory,
+    toggleBtn,
   ]);
 
   return (

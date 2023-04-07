@@ -55,9 +55,11 @@ describe('Testa o componente Recipes', () => {
     userEvent.click(buttonEnter);
 
     const titleFirstRecipe = await screen.findByText('Corba');
+
     expect(titleFirstRecipe).toBeVisible();
 
     const buttonDrinks = screen.getByTestId('drinks-bottom-btn');
+
     expect(buttonDrinks).toBeVisible();
 
     userEvent.click(buttonDrinks);
@@ -65,6 +67,81 @@ describe('Testa o componente Recipes', () => {
     expect(history.location.pathname).toBe('/drinks');
 
     const titleFirstDrink = await screen.findByText('GG');
+
     expect(titleFirstDrink).toBeVisible();
+  });
+  it('Verifica filtros em meals pelos botões de categorias', async () => {
+    const { history } = renderWithRouter(
+      <RecipesProvider>
+        <AppProvider>
+          <App />
+        </AppProvider>
+      </RecipesProvider>,
+    );
+
+    await act(async () => {
+      history.push('/meals');
+    });
+
+    expect(history.location.pathname).toBe('/meals');
+
+    const buttonBeef = await screen.findByTestId('Beef-category-filter');
+
+    expect(buttonBeef).toBeVisible();
+
+    const allTitleRecipeNoFilter = await screen.findAllByRole('heading', { level: 6 });
+
+    expect(allTitleRecipeNoFilter).toHaveLength(12);
+    userEvent.click(buttonBeef);
+
+    const allTitleFilteredBeef = await screen.findAllByRole('heading', { level: 6 });
+
+    expect(allTitleFilteredBeef).toHaveLength(12);
+
+    const buttonAll = screen.getByTestId('All-category-filter');
+
+    expect(buttonAll).toBeVisible();
+    userEvent.click(buttonAll);
+
+    const allTitleFilteredAll = await screen.findAllByRole('heading', { level: 6 });
+
+    expect(allTitleFilteredAll).toHaveLength(12);
+  });
+  it('Verifica filtros em drinks pelos botões de categorias e botão All', async () => {
+    const { history } = renderWithRouter(
+      <RecipesProvider>
+        <AppProvider>
+          <App />
+        </AppProvider>
+      </RecipesProvider>,
+    );
+
+    await act(async () => {
+      history.push('/drinks');
+    });
+
+    expect(history.location.pathname).toBe('/drinks');
+
+    const buttonOrdinary = await screen.findByTestId('Ordinary Drink-category-filter');
+
+    expect(buttonOrdinary).toBeVisible();
+
+    const allTitleRecipeNoFilterDrinks = await screen.findAllByRole('heading', { level: 6 });
+
+    expect(allTitleRecipeNoFilterDrinks).toHaveLength(12);
+    userEvent.click(buttonOrdinary);
+
+    const allTitleFilteredOrdinary = await screen.findAllByRole('heading', { level: 6 });
+
+    expect(allTitleFilteredOrdinary).toHaveLength(12);
+
+    const buttonAllDrinks = screen.getByTestId('All-category-filter');
+
+    expect(buttonAllDrinks).toBeVisible();
+    userEvent.click(buttonAllDrinks);
+
+    const allTitleFilteredAllDrinks = await screen.findAllByRole('heading', { level: 6 });
+
+    expect(allTitleFilteredAllDrinks).toHaveLength(12);
   });
 });
