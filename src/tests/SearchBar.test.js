@@ -2,21 +2,13 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { screen, act, waitForElementToBeRemoved } from '@testing-library/react';
 import { renderWithRouter } from './helpers/renderWithRouter';
-import { RecipesProvider } from '../context/Recipes.Provider';
 import App from '../App';
-import { AppProvider } from '../context/AppProvider';
 
 describe('Testa SearchBar', () => {
   it('Verifica se ao pesquisar por Name Ingredient ou First Letter é renderizado corretamente em meals', async () => {
     window.alert = jest.fn();
 
-    const { history } = renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    const { history } = renderWithRouter(<App />);
 
     await act(async () => {
       history.push('/meals');
@@ -88,13 +80,7 @@ describe('Testa SearchBar', () => {
 
   it('Verifica se ao pesquisar por Name Ingredient ou First Letter é renderizado corretamente em drinks', async () => {
     window.alert = jest.fn();
-    const { history } = renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    const { history } = renderWithRouter(<App />);
 
     await act(async () => {
       history.push('/drinks');

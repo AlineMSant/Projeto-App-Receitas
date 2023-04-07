@@ -3,8 +3,6 @@ import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { renderWithRouter } from './helpers/renderWithRouter';
-import { AppProvider } from '../context/AppProvider';
-import { RecipesProvider } from '../context/Recipes.Provider';
 
 describe('Testes Profile', () => {
   const emailTestId = 'email-input';
@@ -13,13 +11,7 @@ describe('Testes Profile', () => {
   const emailTest = 'test@test.com';
 
   it('Testa se o email esta visivel na página, se a rota é profile e rota ao clicar no botão Done Recipes ', async () => {
-    const { history } = renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    const { history } = renderWithRouter(<App />);
 
     const email = screen.getByTestId(emailTestId);
     const password = screen.getByTestId(passwordTestId);
@@ -45,13 +37,7 @@ describe('Testes Profile', () => {
   });
 
   it('Testa se rota é redirecionada ao clicar no botão Favorite Recipes ', async () => {
-    const { history } = renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    const { history } = renderWithRouter(<App />);
 
     const email = screen.getByTestId(emailTestId);
     const password = screen.getByTestId(passwordTestId);
@@ -72,13 +58,7 @@ describe('Testes Profile', () => {
   });
 
   it('Testa se rota é redirecionada ao clicar no botão Logout ', async () => {
-    const { history } = renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    const { history } = renderWithRouter(<App />);
 
     const email = screen.getByTestId(emailTestId);
     const password = screen.getByTestId(passwordTestId);

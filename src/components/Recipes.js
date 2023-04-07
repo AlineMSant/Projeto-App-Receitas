@@ -24,18 +24,13 @@ export default function Recipes() {
     setSearchTerm,
   } = useContext(RecipesContext);
 
-  const numberOfRecipes = 11;
   const numberOfCategories = 4;
   const { location } = useHistory();
   const route = location.pathname;
 
   const requestAPIMeals = async () => {
     const result = await fetchMeals();
-    const arrayOfMeals = [];
-    for (let i = 0; i <= numberOfRecipes; i += 1) {
-      arrayOfMeals.push(result[i]);
-    }
-    setMeals(arrayOfMeals);
+    setMeals(result);
   };
 
   const requestAPICategoryMeals = async () => {
@@ -49,11 +44,7 @@ export default function Recipes() {
 
   const requestAPIDrinks = async () => {
     const result = await fetchDrinks();
-    const arrayOfDrinks = [];
-    for (let i = 0; i <= numberOfRecipes; i += 1) {
-      arrayOfDrinks.push(result[i]);
-    }
-    setDrinks(arrayOfDrinks);
+    setDrinks(result);
   };
 
   const requestAPICategoryDrinks = async () => {
@@ -125,9 +116,7 @@ export default function Recipes() {
     <>
       <div>Recipes</div>
       {route === '/meals' && (categoriesMeals.map((category) => (
-        <div
-          key={ category }
-        >
+        <div key={ category }>
           <button
             type="button"
             data-testid={ `${category}-category-filter` }
@@ -136,11 +125,10 @@ export default function Recipes() {
             {category}
           </button>
         </div>
-      ))) }
+      )))}
+
       {route === '/drinks' && (categoriesDrinks.map((category) => (
-        <div
-          key={ category }
-        >
+        <div key={ category }>
           <button
             type="button"
             data-testid={ `${category}-category-filter` }
@@ -149,7 +137,8 @@ export default function Recipes() {
             {category}
           </button>
         </div>
-      ))) }
+      )))}
+
       <button
         type="button"
         data-testid="All-category-filter"
@@ -157,38 +146,32 @@ export default function Recipes() {
       >
         All
       </button>
-      {(route === '/meals' && meals !== undefined) && (meals.length > 0 && meals
-        .map((meal, index) => index < numberMax && (
-          <Link to={ `/meals/${meal.idMeal}` } key={ meal.idMeal }>
-            <div
-              data-testid={ `${index}-recipe-card` }
-              key={ meal.idMeal }
-            >
-              <h6 data-testid={ `${index}-card-name` }>{meal.strMeal}</h6>
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ meal.strMealThumb }
-                alt={ meal.strMeal }
-              />
-            </div>
-          </Link>
-        ))) }
-      {(route === '/drinks' && drinks !== undefined) && (drinks.length > 0 && drinks
-        .map((drink, index) => index < numberMax && (
-          <Link to={ `/drinks/${drink.idDrink}` } key={ drink.idDrink }>
-            <div
-              data-testid={ `${index}-recipe-card` }
-              key={ drink.idDrink }
-            >
-              <h6 data-testid={ `${index}-card-name` }>{drink.strDrink}</h6>
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ drink.strDrinkThumb }
-                alt={ drink.strDrink }
-              />
-            </div>
-          </Link>
-        ))) }
+
+      {(route === '/meals' && meals !== undefined)
+      && (meals.length > 0 && meals.map((meal, index) => index < numberMax && (
+        <Link to={ `/meals/${meal.idMeal}` } key={ meal.idMeal }>
+          <div data-testid={ `${index}-recipe-card` }>
+            <h6 data-testid={ `${index}-card-name` }>{ meal.strMeal }</h6>
+            <img
+              data-testid={ `${index}-card-img` }
+              src={ meal.strMealThumb }
+              alt={ meal.strMeal }
+            />
+          </div>
+        </Link>)))}
+
+      {(route === '/drinks' && drinks !== undefined)
+      && (drinks.length > 0 && drinks.map((drink, index) => index < numberMax && (
+        <Link to={ `/drinks/${drink.idDrink}` } key={ drink.idDrink }>
+          <div data-testid={ `${index}-recipe-card` }>
+            <h6 data-testid={ `${index}-card-name` }>{ drink.strDrink }</h6>
+            <img
+              data-testid={ `${index}-card-img` }
+              src={ drink.strDrinkThumb }
+              alt={ drink.strDrink }
+            />
+          </div>
+        </Link>)))}
 
       <Footer />
     </>

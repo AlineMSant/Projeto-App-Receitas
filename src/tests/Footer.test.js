@@ -3,8 +3,6 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { renderWithRouter } from './helpers/renderWithRouter';
-import { AppProvider } from '../context/AppProvider';
-import { RecipesProvider } from '../context/Recipes.Provider';
 
 describe('Teste o componente Footer', () => {
   const testIdEmail = 'email-input';
@@ -13,13 +11,7 @@ describe('Teste o componente Footer', () => {
   const emailTest = 'test@test.com';
 
   it('Teste se o componente os botoes e imagens', async () => {
-    renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    renderWithRouter(<App />);
 
     const email = screen.getByTestId(testIdEmail);
     const password = screen.getByTestId(testIdPassword);
@@ -36,13 +28,7 @@ describe('Teste o componente Footer', () => {
   });
 
   it('Teste se o botao meals está com rota', async () => {
-    const { history } = renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    const { history } = renderWithRouter(<App />);
 
     const email = screen.getByTestId(testIdEmail);
     const password = screen.getByTestId(testIdPassword);
@@ -58,13 +44,7 @@ describe('Teste o componente Footer', () => {
   });
 
   it('Teste se o botao drink está com rota', async () => {
-    const { history } = renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    const { history } = renderWithRouter(<App />);
 
     const email = screen.getByTestId(testIdEmail);
     const password = screen.getByTestId(testIdPassword);
