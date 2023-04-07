@@ -11,6 +11,10 @@ export function RecipesProvider({ children }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [toggleBtn, setToggleBtn] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [details, setDetails] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+  const [measures, setMeasures] = useState([]);
 
   const context = useMemo(() => ({
     meals,
@@ -29,6 +33,14 @@ export function RecipesProvider({ children }) {
     setSelectedCategory,
     toggleBtn,
     setToggleBtn,
+    loading,
+    setLoading,
+    details,
+    setDetails,
+    ingredients,
+    setIngredients,
+    measures,
+    setMeasures,
   }), [
     meals,
     drinks,
@@ -38,6 +50,10 @@ export function RecipesProvider({ children }) {
     searchTerm,
     selectedCategory,
     toggleBtn,
+    loading,
+    details,
+    ingredients,
+    measures,
   ]);
 
   return (
