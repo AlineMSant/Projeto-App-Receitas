@@ -95,6 +95,7 @@ function RecipeDetails() {
                 title="Youtube VIdeo"
                 src={ details[0].strYoutube }
                 allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                sandbox=""
               />
             </div>
           ) : (

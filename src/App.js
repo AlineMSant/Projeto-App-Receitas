@@ -33,7 +33,7 @@ export default App;
 
 // Requisito 1/2/3/4/5/6/20: Aline, Nicola, Camila, Patrick, Samara;
 // Requisito 7/8: Patrick;
-// Requisito 9/23/24: Aline, Nicola, Patrick, Samara;
+// Requisito 9/23/24/25: Aline, Nicola, Patrick, Samara;
 // Requisito 10: Aline, Camila;
 // Requisito 13/14/15: Aline, Patrick, Camila, Samara;
 // Requisito 16/18: Aline, Nicola;
