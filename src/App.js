@@ -31,13 +31,14 @@ function App() {
 
 export default App;
 
-// Requisito 2/3/4/5/6/13/20: Aline, Nicola, Camila, Patrick, Samara;
+// Requisito 1/2/3/4/5/6/20: Aline, Nicola, Camila, Patrick, Samara;
 // Requisito 7/8: Patrick;
-// Requisito 9: Aline, NIcola, Patrick, Samara;
+// Requisito 9/23/24: Aline, Nicola, Patrick, Samara;
 // Requisito 10: Aline, Camila;
-// Requisito 11/12: Aline;
 // Requisito 13/14/15: Aline, Patrick, Camila, Samara;
 // Requisito 16/18: Aline, Nicola;
 // Requisito 17: Nicola;
 // Requisito 19: Samara;
-// Requisito 57/58/59/60/21/62: Aline;
+// Requisito 21: Aline, Nicola, Patrick;
+// Requisito 22: Nicola, Patrick;
+// Requisito 11/12/57/58/59/60/21/62: Aline;
