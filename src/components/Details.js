@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import RecipesContext from '../context/RecipesContext';
 import { fetchIdMeal, fetchIdDrink } from '../services/fetchAPI';
 
-function RecipeDetails() {
-  const [loading, setLoading] = useState(true);
-  const [details, setDetails] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-  const [measures, setMeasures] = useState([]);
+function Details() {
+  const { loading,
+    setLoading,
+    details,
+    setDetails,
+    ingredients,
+    setIngredients,
+    measures,
+    setMeasures } = useContext(RecipesContext);
+
   const history = useHistory();
   const { pathname } = history.location;
   const id = pathname.substring(pathname.lastIndexOf('/') + 1);
@@ -66,7 +72,6 @@ function RecipeDetails() {
 
   return (
     <div>
-      <h1>Recipe Details</h1>
       {loading === true ? <p>Carregando...</p> : (
         <div>
           {routeMeals ? (
@@ -129,4 +134,4 @@ function RecipeDetails() {
   );
 }
 
-export default RecipeDetails;
+export default Details;
