@@ -1,22 +1,12 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { screen, act } from '@testing-library/react';
+import { screen, act, waitForElementToBeRemoved } from '@testing-library/react';
 import { renderWithRouter } from './helpers/renderWithRouter';
 import App from '../App';
-import { AppProvider } from '../context/AppProvider';
-import { RecipesProvider } from '../context/Recipes.Provider';
-
-// const mockFetch = require('./helpers/mockFetch');
 
 describe('Testa o componente Recipes', () => {
   it('Verifica se o componente é renderizado corretamente', async () => {
-    const { history } = renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    const { history } = renderWithRouter(<App />);
 
     await act(async () => {
       history.push('/meals');
@@ -36,15 +26,7 @@ describe('Testa o componente Recipes', () => {
   });
 
   it('Verifica o retorno da API na rota /meals', async () => {
-    // jest.spyOn(global, 'fetch').mockImplementation(mockFetch('https://www.themealdb.com/api/json/v1/1/search.php?s='));
-
-    const { history } = renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    const { history } = renderWithRouter(<App />);
 
     const email = screen.getByTestId('email-input');
     const password = screen.getByTestId('password-input');
@@ -55,11 +37,9 @@ describe('Testa o componente Recipes', () => {
     userEvent.click(buttonEnter);
 
     const titleFirstRecipe = await screen.findByText('Corba');
-
     expect(titleFirstRecipe).toBeVisible();
 
     const buttonDrinks = screen.getByTestId('drinks-bottom-btn');
-
     expect(buttonDrinks).toBeVisible();
 
     userEvent.click(buttonDrinks);
@@ -67,17 +47,11 @@ describe('Testa o componente Recipes', () => {
     expect(history.location.pathname).toBe('/drinks');
 
     const titleFirstDrink = await screen.findByText('GG');
-
     expect(titleFirstDrink).toBeVisible();
   });
+
   it('Verifica filtros em meals pelos botões de categorias', async () => {
-    const { history } = renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    const { history } = renderWithRouter(<App />);
 
     await act(async () => {
       history.push('/meals');
@@ -85,36 +59,48 @@ describe('Testa o componente Recipes', () => {
 
     expect(history.location.pathname).toBe('/meals');
 
-    const buttonBeef = await screen.findByTestId('Beef-category-filter');
+    const titleRecipeNoFilter = await screen.findByText('Corba');
 
+    const buttonBeef = await screen.findByTestId('Beef-category-filter');
     expect(buttonBeef).toBeVisible();
 
-    const allTitleRecipeNoFilter = await screen.findAllByRole('heading', { level: 6 });
-
-    expect(allTitleRecipeNoFilter).toHaveLength(12);
     userEvent.click(buttonBeef);
 
-    const allTitleFilteredBeef = await screen.findAllByRole('heading', { level: 6 });
+    await waitForElementToBeRemoved(titleRecipeNoFilter);
 
-    expect(allTitleFilteredBeef).toHaveLength(12);
+    const titleRecipeFilteredBeef = screen.getByText('Beef and Mustard Pie');
+    expect(titleRecipeFilteredBeef).toBeVisible();
+    expect(titleRecipeNoFilter).not.toBeVisible();
+
+    userEvent.click(buttonBeef);
+
+    await waitForElementToBeRemoved(titleRecipeFilteredBeef);
+
+    const titleRecipeNoFilteredBeef = screen.getByText('Corba');
+    expect(titleRecipeNoFilteredBeef).toBeVisible();
+    expect(titleRecipeFilteredBeef).not.toBeVisible();
+
+    userEvent.click(buttonBeef);
+
+    await waitForElementToBeRemoved(titleRecipeNoFilteredBeef);
+
+    const titleRecipeFilteredBeef2 = screen.getByText('Beef and Mustard Pie');
+    expect(titleRecipeFilteredBeef2).toBeVisible();
+    expect(titleRecipeNoFilteredBeef).not.toBeVisible();
 
     const buttonAll = screen.getByTestId('All-category-filter');
-
     expect(buttonAll).toBeVisible();
     userEvent.click(buttonAll);
 
-    const allTitleFilteredAll = await screen.findAllByRole('heading', { level: 6 });
+    await waitForElementToBeRemoved(titleRecipeFilteredBeef2);
 
-    expect(allTitleFilteredAll).toHaveLength(12);
+    const titleRecipeNoFilterAfterAll = screen.getByText('Corba');
+    expect(titleRecipeFilteredBeef2).not.toBeVisible();
+    expect(titleRecipeNoFilterAfterAll).toBeVisible();
   });
+
   it('Verifica filtros em drinks pelos botões de categorias e botão All', async () => {
-    const { history } = renderWithRouter(
-      <RecipesProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipesProvider>,
-    );
+    const { history } = renderWithRouter(<App />);
 
     await act(async () => {
       history.push('/drinks');
@@ -123,25 +109,44 @@ describe('Testa o componente Recipes', () => {
     expect(history.location.pathname).toBe('/drinks');
 
     const buttonOrdinary = await screen.findByTestId('Ordinary Drink-category-filter');
-
     expect(buttonOrdinary).toBeVisible();
 
-    const allTitleRecipeNoFilterDrinks = await screen.findAllByRole('heading', { level: 6 });
+    const titleRecipeNoFilterDrinks = await screen.findByText('GG');
+    expect(titleRecipeNoFilterDrinks).toBeVisible();
 
-    expect(allTitleRecipeNoFilterDrinks).toHaveLength(12);
     userEvent.click(buttonOrdinary);
 
-    const allTitleFilteredOrdinary = await screen.findAllByRole('heading', { level: 6 });
+    await waitForElementToBeRemoved(titleRecipeNoFilterDrinks);
 
-    expect(allTitleFilteredOrdinary).toHaveLength(12);
+    const titleRecipeFilteredOrdinary = screen.getByText('3-Mile Long Island Iced Tea');
+    expect(titleRecipeNoFilterDrinks).not.toBeVisible();
+    expect(titleRecipeFilteredOrdinary).toBeVisible();
+
+    userEvent.click(buttonOrdinary);
+
+    await waitForElementToBeRemoved(titleRecipeFilteredOrdinary);
+
+    const titleRecipeNoFilteredOrdinary = screen.getByText('GG');
+    expect(titleRecipeFilteredOrdinary).not.toBeVisible();
+    expect(titleRecipeNoFilteredOrdinary).toBeVisible();
+
+    userEvent.click(buttonOrdinary);
+
+    await waitForElementToBeRemoved(titleRecipeNoFilteredOrdinary);
+
+    const titleRecipeFilteredOrdinary2 = screen.getByText('3-Mile Long Island Iced Tea');
+    expect(titleRecipeNoFilteredOrdinary).not.toBeVisible();
+    expect(titleRecipeFilteredOrdinary2).toBeVisible();
 
     const buttonAllDrinks = screen.getByTestId('All-category-filter');
 
     expect(buttonAllDrinks).toBeVisible();
     userEvent.click(buttonAllDrinks);
 
-    const allTitleFilteredAllDrinks = await screen.findAllByRole('heading', { level: 6 });
+    await waitForElementToBeRemoved(titleRecipeFilteredOrdinary2);
+    const titleRecipeNoFilterAfterAll = screen.getByText('GG');
 
-    expect(allTitleFilteredAllDrinks).toHaveLength(12);
+    expect(titleRecipeFilteredOrdinary2).not.toBeVisible();
+    expect(titleRecipeNoFilterAfterAll).toBeVisible();
   });
 });
