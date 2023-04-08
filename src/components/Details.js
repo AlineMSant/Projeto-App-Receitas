@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import { fetchIdMeal, fetchIdDrink } from '../services/fetchAPI';
+import MealsRecommendations from './MealsRecommendations';
+import DrinksRecommendations from './DrinksRecommendations';
 
 function Details() {
   const { loading,
@@ -102,6 +104,8 @@ function Details() {
                 allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 sandbox=""
               />
+
+              <DrinksRecommendations />
             </div>
           ) : (
             <div>
@@ -124,6 +128,8 @@ function Details() {
               </ul>
 
               <p data-testid="instructions">{ details[0].strInstructions }</p>
+
+              <MealsRecommendations />
             </div>
           )}
 

@@ -1,15 +1,23 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { screen, act, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen, act, waitForElementToBeRemoved, waitFor } from '@testing-library/react';
 import { renderWithRouter } from './helpers/renderWithRouter';
+import fetch from '../../cypress/mocks/fetch';
 import App from '../App';
 
 describe('Testa o componente Recipes', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn(fetch);
+  });
   it('Verifica se o componente é renderizado corretamente', async () => {
     const { history } = renderWithRouter(<App />);
 
     await act(async () => {
       history.push('/meals');
+    });
+
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
     });
 
     const buttonBeef = await screen.findByTestId('Beef-category-filter');
@@ -36,6 +44,10 @@ describe('Testa o componente Recipes', () => {
     userEvent.type(password, '1234567');
     userEvent.click(buttonEnter);
 
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
+    });
+
     const titleFirstRecipe = await screen.findByText('Corba');
     expect(titleFirstRecipe).toBeVisible();
 
@@ -43,6 +55,10 @@ describe('Testa o componente Recipes', () => {
     expect(buttonDrinks).toBeVisible();
 
     userEvent.click(buttonDrinks);
+
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
+    });
 
     expect(history.location.pathname).toBe('/drinks');
 
@@ -58,6 +74,10 @@ describe('Testa o componente Recipes', () => {
     });
 
     expect(history.location.pathname).toBe('/meals');
+
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
+    });
 
     const titleRecipeNoFilter = await screen.findByText('Corba');
 
@@ -104,6 +124,10 @@ describe('Testa o componente Recipes', () => {
 
     await act(async () => {
       history.push('/drinks');
+    });
+
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
     });
 
     expect(history.location.pathname).toBe('/drinks');

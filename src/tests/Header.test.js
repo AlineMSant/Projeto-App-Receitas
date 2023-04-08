@@ -51,7 +51,6 @@ describe('Testa o componente Header', () => {
   });
 
   it('Verifica se as diferentes rotas são renderizadas corretamente', async () => {
-    // jest.spyOn(global, 'fetch').mockImplementation(mockFetch);
     const { history } = renderWithRouter(<App />);
 
     await act(async () => {

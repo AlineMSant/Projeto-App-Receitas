@@ -42,3 +42,4 @@ export default App;
 // Requisito 21: Aline, Nicola, Patrick;
 // Requisito 22: Nicola, Patrick;
 // Requisito 11/12/57/58/59/60/21/62: Aline;
+// Requisito 28/32: Patrick, Samara, Nicola;

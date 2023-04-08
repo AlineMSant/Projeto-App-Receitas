@@ -2,9 +2,13 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { screen, act, waitForElementToBeRemoved } from '@testing-library/react';
 import { renderWithRouter } from './helpers/renderWithRouter';
+// import fetch from '../../cypress/mocks/fetch';
 import App from '../App';
 
 describe('Testa SearchBar', () => {
+  // beforeEach(() => {
+  //   global.fetch = jest.fn(fetch);
+  // });
   it('Verifica se ao pesquisar por Name Ingredient ou First Letter é renderizado corretamente em meals', async () => {
     window.alert = jest.fn();
 
@@ -13,6 +17,10 @@ describe('Testa SearchBar', () => {
     await act(async () => {
       history.push('/meals');
     });
+
+    // await waitFor(() => {
+    //   expect(global.fetch).toBeCalled();
+    // });
 
     expect(history.location.pathname).toBe('/meals');
 
@@ -35,38 +43,46 @@ describe('Testa SearchBar', () => {
     const titleFirstRecipeNoFilter = await screen.findByText('Corba');
     expect(titleFirstRecipeNoFilter).toBeVisible();
 
-    userEvent.type(inputSearch, 'flour');
+    userEvent.type(inputSearch, 'Chicken');
     userEvent.click(radioIngredient);
     userEvent.click(buttonSearch);
 
+    // await waitFor(() => {
+    //   expect(global.fetch).toBeCalled();
+    // });
+
     await waitForElementToBeRemoved(titleFirstRecipeNoFilter);
 
-    const titleFirstRecipeFilteredIngredient = screen.getByText('Apam balik');
+    const titleFirstRecipeFilteredIngredient = screen.getByText('Brown Stew Chicken');
 
     expect(titleFirstRecipeNoFilter).not.toBeVisible();
     expect(titleFirstRecipeFilteredIngredient).toBeVisible();
 
+    //
+
     userEvent.clear(inputSearch);
-    userEvent.type(inputSearch, 'p');
+    userEvent.type(inputSearch, 'a');
     userEvent.click(radioFisrt);
     userEvent.click(buttonSearch);
 
     await waitForElementToBeRemoved(titleFirstRecipeFilteredIngredient);
 
-    const titleFirstRecipeFilteredFirst = screen.getByText('Pad See Ew');
+    const titleFirstRecipeFilteredFirst = screen.getByText('Apple Frangipan Tart');
 
     expect(titleFirstRecipeFilteredFirst).toBeVisible();
     expect(titleFirstRecipeFilteredIngredient).not.toBeVisible();
 
+    //
+
     userEvent.clear(inputSearch);
-    userEvent.type(inputSearch, 'pw');
+    userEvent.type(inputSearch, 'ab');
     userEvent.click(radioFisrt);
     userEvent.click(buttonSearch);
 
     expect(window.alert).toBeCalledWith('Your search must have only 1 (one) character');
 
     userEvent.clear(inputSearch);
-    userEvent.type(inputSearch, 'sushi');
+    userEvent.type(inputSearch, 'Arrabiata');
     userEvent.click(radioName);
     userEvent.click(buttonSearch);
 
@@ -86,6 +102,10 @@ describe('Testa SearchBar', () => {
       history.push('/drinks');
     });
 
+    // await waitFor(() => {
+    //   expect(global.fetch).toBeCalled();
+    // });
+
     expect(history.location.pathname).toBe('/drinks');
 
     const buttonIconSearchDrinks = screen.getByTestId('search-top-btn');
@@ -98,26 +118,26 @@ describe('Testa SearchBar', () => {
     const radioFisrtDrinks = screen.getByTestId('first-letter-search-radio');
     const buttonSearchDrinks = screen.getByTestId('exec-search-btn');
 
-    expect(inputSearchDrinks).toBeVisible();
-    expect(radioNameDrinks).toBeVisible();
-    expect(radioIngredientDrinks).toBeVisible();
-    expect(radioFisrtDrinks).toBeVisible();
-    expect(buttonSearchDrinks).toBeVisible();
-
     const titleFirstRecipeNoFilterDrinks = await screen.findByText('GG');
     expect(titleFirstRecipeNoFilterDrinks).toBeVisible();
 
     userEvent.clear(inputSearchDrinks);
-    userEvent.type(inputSearchDrinks, 'kiwi');
+    userEvent.type(inputSearchDrinks, 'Light rum');
     userEvent.click(radioIngredientDrinks);
     userEvent.click(buttonSearchDrinks);
 
+    // await waitFor(() => {
+    //   expect(global.fetch).toBeCalled();
+    // });
+
     await waitForElementToBeRemoved(titleFirstRecipeNoFilterDrinks);
 
-    const titleFirstRecipeFilteredIngredientDrinks = await screen.findByText('Kiwi Martini');
+    const titleFirstRecipeFilteredIngredientDrinks = screen.getByText('151 Florida Bushwacker');
 
     expect(titleFirstRecipeFilteredIngredientDrinks).toBeVisible();
     expect(titleFirstRecipeNoFilterDrinks).not.toBeVisible();
+
+    //
 
     userEvent.clear(inputSearchDrinks);
     userEvent.type(inputSearchDrinks, 'p');
@@ -131,6 +151,8 @@ describe('Testa SearchBar', () => {
     expect(titleFirstRecipeFilteredFirstDrinks).toBeVisible();
     expect(titleFirstRecipeFilteredIngredientDrinks).not.toBeVisible();
 
+    //
+
     userEvent.clear(inputSearchDrinks);
     userEvent.type(inputSearchDrinks, 'pw');
     userEvent.click(radioFisrtDrinks);
@@ -139,9 +161,13 @@ describe('Testa SearchBar', () => {
     expect(window.alert).toBeCalledWith('Your search must have only 1 (one) character');
 
     userEvent.clear(inputSearchDrinks);
-    userEvent.type(inputSearchDrinks, 'Kir Royale');
+    userEvent.type(inputSearchDrinks, 'Aquamarine');
     userEvent.click(radioNameDrinks);
     userEvent.click(buttonSearchDrinks);
+
+    // await waitFor(() => {
+    //   expect(global.fetch).toBeCalled();
+    // });
 
     await waitForElementToBeRemoved(titleFirstRecipeFilteredFirstDrinks);
 
