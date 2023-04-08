@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import { fetchIdMeal, fetchIdDrink } from '../services/fetchAPI';
@@ -14,6 +14,8 @@ export default function RecipeInProgress() {
     setIngredients,
     measures,
     setMeasures } = useContext(RecipesContext);
+
+  const [selectedIngr, setSelectedIngr] = useState('');
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -86,15 +88,20 @@ export default function RecipeInProgress() {
               <h1 data-testid="recipe-title">{ details[0].strMeal }</h1>
               <h2 data-testid="recipe-category">{ details[0].strCategory }</h2>
 
-              <ul>
+              <div>
                 {ingredients.map((ingredient, index) => (
-                  <li
+                  <label
                     key={ index }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
+                    data-testid={ `data-testid=${index}-ingredient-step` }
                   >
-                    {`${ingredient} ${measures[index]}`}
-                  </li>))}
-              </ul>
+                    <input
+                      type="checkbox"
+                      value={ selectedIngr }
+                      onChange={ (e) => setSelectedIngr(e.target.checked) }
+                    />
+                    { `${ingredient} ${measures[index]}` }
+                  </label>))}
+              </div>
 
               <p data-testid="instructions">{ details[0].strInstructions }</p>
             </div>
@@ -108,15 +115,20 @@ export default function RecipeInProgress() {
               <h1 data-testid="recipe-title">{ details[0].strDrink }</h1>
               <h2 data-testid="recipe-category">{ details[0].strAlcoholic }</h2>
 
-              <ul>
+              <div>
                 {ingredients.map((ingredient, index) => (
-                  <li
+                  <label
                     key={ index }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
+                    data-testid={ `data-testid=${index}-ingredient-step` }
                   >
-                    {`${ingredient} ${measures[index]}`}
-                  </li>))}
-              </ul>
+                    <input
+                      type="checkbox"
+                      value={ selectedIngr }
+                      onChange={ (e) => setSelectedIngr(e.target.checked) }
+                    />
+                    { `${ingredient} ${measures[index]}` }
+                  </label>))}
+              </div>
 
               <p data-testid="instructions">{ details[0].strInstructions }</p>
             </div>
