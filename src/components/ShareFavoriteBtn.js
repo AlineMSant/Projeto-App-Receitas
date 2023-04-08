@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 import favIcon from '../images/blackHeartIcon.svg';
+import RecipesContext from '../context/RecipesContext';
 
 const copy = require('clipboard-copy');
 
 function ShareFavoriteBtn() {
-  const [copyMessageToggle, setCopyMessageToggle] = useState(false);
+  const { copyMessageToggle, setCopyMessageToggle } = useContext(RecipesContext);
   const recipeLink = window.location.href;
 
   function CopyToClipboard() {
@@ -20,10 +21,12 @@ function ShareFavoriteBtn() {
     }, fiveSeconds);
 
     return () => clearTimeout(disableMessage);
-  }, []);
+  }, [setCopyMessageToggle]);
 
   return (
-    <>
+    <div
+      className="share-favorite-container"
+    >
       { copyMessageToggle
         ? (
           <div>
@@ -32,6 +35,7 @@ function ShareFavoriteBtn() {
 
       <button
         type="button"
+        className="share-btn"
         onClick={ () => CopyToClipboard() }
       >
         <img
@@ -43,6 +47,7 @@ function ShareFavoriteBtn() {
 
       <button
         type="button"
+        className="favorite-btn"
       >
         <img
           data-testid="favorite-btn"
@@ -50,7 +55,7 @@ function ShareFavoriteBtn() {
           alt="Favorite Icon"
         />
       </button>
-    </>
+    </div>
   );
 }
 
