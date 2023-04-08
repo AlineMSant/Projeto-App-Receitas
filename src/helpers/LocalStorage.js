@@ -7,6 +7,7 @@ export const getEmail = () => {
   return email;
 };
 
+// utilizar no requisito que solicitar doneRecipes LOCALSTORAGE
 export const saveDoneRecipes = () => {
   const doneRecipe = [{
     id: '52977',
