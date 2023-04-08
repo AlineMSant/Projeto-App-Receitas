@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { screen, act, waitForElementToBeRemoved, waitFor } from '@testing-library/react';
+import { screen, act, waitForElementToBeRemoved } from '@testing-library/react';
 import { renderWithRouter } from './helpers/renderWithRouter';
 // import fetch from '../../cypress/mocks/fetch';
 import App from '../App';
