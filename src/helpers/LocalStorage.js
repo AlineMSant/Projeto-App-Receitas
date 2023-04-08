@@ -40,7 +40,14 @@ export const getDoneRecipes = () => {
   return arrayDoneRecipes;
 };
 
+export const saveFavoriteRecipe = (recipe) => {
+  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+  favoriteRecipes.push(recipe);
+  localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+};
+
 export default {
   saveEmail,
   getEmail,
-  saveDoneRecipes };
+  saveDoneRecipes,
+  saveFavoriteRecipe };
