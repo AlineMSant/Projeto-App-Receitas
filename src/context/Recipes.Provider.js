@@ -17,6 +17,7 @@ export function RecipesProvider({ children }) {
   const [measures, setMeasures] = useState([]);
   const [mealsRecommendations, setMealsRecommendations] = useState([]);
   const [drinksRecommendations, setDrinksRecommendations] = useState([]);
+  const [disableBtnFinish, setDisableBtnFinish] = useState(true);
 
   const context = useMemo(() => ({
     meals,
@@ -47,6 +48,8 @@ export function RecipesProvider({ children }) {
     setMealsRecommendations,
     drinksRecommendations,
     setDrinksRecommendations,
+    disableBtnFinish,
+    setDisableBtnFinish,
   }), [
     meals,
     drinks,
@@ -62,6 +65,7 @@ export function RecipesProvider({ children }) {
     measures,
     mealsRecommendations,
     drinksRecommendations,
+    disableBtnFinish,
   ]);
 
   return (

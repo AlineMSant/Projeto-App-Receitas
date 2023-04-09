@@ -14,7 +14,8 @@ export default function RecipeInProgress() {
     ingredients,
     setIngredients,
     measures,
-    setMeasures } = useContext(RecipesContext);
+    setMeasures,
+    setDisableBtnFinish } = useContext(RecipesContext);
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -81,6 +82,13 @@ export default function RecipeInProgress() {
     } else {
       label.className = 'no-selected';
     }
+    const inputs = document.querySelectorAll('.checkbox');
+    const arrayOfBooleans = [];
+    inputs.forEach((input) => {
+      arrayOfBooleans.push(input.checked);
+    });
+    const everyTrue = arrayOfBooleans.every((boolean) => boolean === true);
+    setDisableBtnFinish(!everyTrue);
   };
 
   return (
@@ -105,6 +113,7 @@ export default function RecipeInProgress() {
                     id={ `data-testid=${index}-ingredient-step` }
                   >
                     <input
+                      className="checkbox"
                       type="checkbox"
                       id={ `data-testid=${index}-ingredient-step` }
                       name={ `${ingredient} ${measures[index]}` }
@@ -134,6 +143,7 @@ export default function RecipeInProgress() {
                     id={ `data-testid=${index}-ingredient-step` }
                   >
                     <input
+                      className="checkbox"
                       id={ `data-testid=${index}-ingredient-step` }
                       type="checkbox"
                       name={ `${ingredient} ${measures[index]}` }
