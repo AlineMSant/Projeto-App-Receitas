@@ -51,9 +51,15 @@ export const getFavoriteRecipe = () => {
   return getFavoriteRecipes;
 };
 
+export const updateFavoriteRecipe = (newRecipes) => {
+  localStorage.setItem('favoriteRecipes', JSON.stringify(newRecipes));
+};
+
 export default {
   saveEmail,
   getEmail,
   saveDoneRecipes,
   saveFavoriteRecipe,
-  getFavoriteRecipe };
+  getFavoriteRecipe,
+  updateFavoriteRecipe,
+};

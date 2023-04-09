@@ -3,7 +3,11 @@ import shareIcon from '../images/shareIcon.svg';
 import favIcon from '../images/whiteHeartIcon.svg';
 import isFavIcon from '../images/blackHeartIcon.svg';
 import RecipesContext from '../context/RecipesContext';
-import { saveFavoriteRecipe, getFavoriteRecipe } from '../helpers/LocalStorage';
+import {
+  saveFavoriteRecipe,
+  getFavoriteRecipe,
+  updateFavoriteRecipe,
+} from '../helpers/LocalStorage';
 
 const copy = require('clipboard-copy');
 
@@ -22,34 +26,46 @@ function ShareFavoriteBtn() {
     return copy(recipeLink);
   }
 
-  function handleClickFavorite() {
-    const favoriteRecipe = {
-      id: details[0].idMeal || details[0].idDrink,
-      type: details[0].idMeal ? 'meal' : 'drink',
-      nationality: details[0].strArea || '',
-      category: details[0].strCategory,
-      alcoholicOrNot: details[0].strAlcoholic || '',
-      name: details[0].strMeal || details[0].strDrink,
-      image: details[0].strMealThumb || details[0].strDrinkThumb,
-    };
-    saveFavoriteRecipe(favoriteRecipe);
-    setIsFavorite(!isFavorite);
+  function checkIfIsFavorite(savedRecipes, recipe) {
+    return savedRecipes?.some(
+      (item) => item.id === recipe?.idMeal
+      || item.id === recipe?.idDrink,
+    );
   }
 
-  // console.log(details);
+  function removeFavoriteRecipe(recipeId) {
+    const savedRecipes = getFavoriteRecipe();
+    const newRecipes = savedRecipes.filter((recipe) => recipe.id !== recipeId);
+
+    updateFavoriteRecipe(newRecipes);
+    setIsFavorite(false);
+  }
+
+  function handleClickFavorite() {
+    if (isFavorite) {
+      removeFavoriteRecipe(details[0].idMeal || details[0].idDrink);
+    } else {
+      const favoriteRecipe = {
+        id: details[0].idMeal || details[0].idDrink,
+        type: details[0].idMeal ? 'meal' : 'drink',
+        nationality: details[0].strArea || '',
+        category: details[0].strCategory,
+        alcoholicOrNot: details[0].strAlcoholic || '',
+        name: details[0].strMeal || details[0].strDrink,
+        image: details[0].strMealThumb || details[0].strDrinkThumb,
+      };
+      saveFavoriteRecipe(favoriteRecipe);
+      setIsFavorite(true);
+    }
+    console.log(removeFavoriteRecipe);
+  }
 
   useEffect(() => {
     const savedRecipes = getFavoriteRecipe();
-    // console.log(details);
-    // console.log(savedRecipes);
-    const isFavorited = savedRecipes?.some(
-      (recipe) => recipe.id === details[0]?.idMeal || recipe.id === details[0]?.idDrink,
-    );
-    // console.log(isFavorited);
-    if (isFavorited) {
-      setIsFavorite(true);
-    }
-  }, [details, setIsFavorite, isFavorite]);
+    const isFavorited = checkIfIsFavorite(savedRecipes, details[0]);
+
+    setIsFavorite(isFavorited);
+  }, [details, setIsFavorite]);
 
   useEffect(() => {
     const fiveSeconds = 5000;
