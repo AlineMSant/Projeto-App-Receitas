@@ -1,9 +1,10 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import { fetchIdMeal, fetchIdDrink } from '../services/fetchAPI';
 import ShareFavoriteBtn from '../components/ShareFavoriteBtn';
 import FinishBtn from '../components/FinishBtn';
+import '../assets/styles/RecipeInProgress.css';
 
 export default function RecipeInProgress() {
   const { loading,
@@ -14,8 +15,6 @@ export default function RecipeInProgress() {
     setIngredients,
     measures,
     setMeasures } = useContext(RecipesContext);
-
-  const [selectedIngr, setSelectedIngr] = useState('');
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -74,6 +73,16 @@ export default function RecipeInProgress() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleChange = (e) => {
+    const label = e.target.parentNode;
+
+    if (e.target.checked === true) {
+      label.className = 'selected';
+    } else {
+      label.className = 'no-selected';
+    }
+  };
+
   return (
     <div>
       {loading === true ? <p>Carregando...</p> : (
@@ -93,11 +102,13 @@ export default function RecipeInProgress() {
                   <label
                     key={ index }
                     data-testid={ `data-testid=${index}-ingredient-step` }
+                    id={ `data-testid=${index}-ingredient-step` }
                   >
                     <input
                       type="checkbox"
-                      value={ selectedIngr }
-                      onChange={ (e) => setSelectedIngr(e.target.checked) }
+                      id={ `data-testid=${index}-ingredient-step` }
+                      name={ `${ingredient} ${measures[index]}` }
+                      onChange={ (e) => handleChange(e) }
                     />
                     { `${ingredient} ${measures[index]}` }
                   </label>))}
@@ -120,11 +131,13 @@ export default function RecipeInProgress() {
                   <label
                     key={ index }
                     data-testid={ `data-testid=${index}-ingredient-step` }
+                    id={ `data-testid=${index}-ingredient-step` }
                   >
                     <input
+                      id={ `data-testid=${index}-ingredient-step` }
                       type="checkbox"
-                      value={ selectedIngr }
-                      onChange={ (e) => setSelectedIngr(e.target.checked) }
+                      name={ `${ingredient} ${measures[index]}` }
+                      onChange={ (e) => handleChange(e) }
                     />
                     { `${ingredient} ${measures[index]}` }
                   </label>))}
