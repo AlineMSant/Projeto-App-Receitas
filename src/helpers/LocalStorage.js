@@ -41,13 +41,19 @@ export const getDoneRecipes = () => {
 };
 
 export const saveFavoriteRecipe = (recipe) => {
-  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-  favoriteRecipes.push(recipe);
-  localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+  const setFavoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+  setFavoriteRecipes.push(recipe);
+  localStorage.setItem('favoriteRecipes', JSON.stringify(setFavoriteRecipes));
+};
+
+export const getFavoriteRecipe = () => {
+  const getFavoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  return getFavoriteRecipes;
 };
 
 export default {
   saveEmail,
   getEmail,
   saveDoneRecipes,
-  saveFavoriteRecipe };
+  saveFavoriteRecipe,
+  getFavoriteRecipe };

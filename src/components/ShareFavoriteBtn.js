@@ -1,8 +1,9 @@
 import React, { useEffect, useContext } from 'react';
 import shareIcon from '../images/shareIcon.svg';
-import favIcon from '../images/blackHeartIcon.svg';
+import favIcon from '../images/whiteHeartIcon.svg';
+import isFavIcon from '../images/blackHeartIcon.svg';
 import RecipesContext from '../context/RecipesContext';
-import { saveFavoriteRecipe } from '../helpers/LocalStorage';
+import { saveFavoriteRecipe, getFavoriteRecipe } from '../helpers/LocalStorage';
 
 const copy = require('clipboard-copy');
 
@@ -11,8 +12,9 @@ function ShareFavoriteBtn() {
     copyMessageToggle,
     setCopyMessageToggle,
     details,
+    isFavorite,
+    setIsFavorite,
   } = useContext(RecipesContext);
-
   const recipeLink = window.location.href;
 
   function CopyToClipboard() {
@@ -30,9 +32,24 @@ function ShareFavoriteBtn() {
       name: details[0].strMeal || details[0].strDrink,
       image: details[0].strMealThumb || details[0].strDrinkThumb,
     };
-
     saveFavoriteRecipe(favoriteRecipe);
+    setIsFavorite(!isFavorite);
   }
+
+  // console.log(details);
+
+  useEffect(() => {
+    const savedRecipes = getFavoriteRecipe();
+    // console.log(details);
+    // console.log(savedRecipes);
+    const isFavorited = savedRecipes?.some(
+      (recipe) => recipe.id === details[0]?.idMeal || recipe.id === details[0]?.idDrink,
+    );
+    // console.log(isFavorited);
+    if (isFavorited) {
+      setIsFavorite(true);
+    }
+  }, [details, setIsFavorite, isFavorite]);
 
   useEffect(() => {
     const fiveSeconds = 5000;
@@ -44,6 +61,7 @@ function ShareFavoriteBtn() {
   }, [setCopyMessageToggle]);
 
   return (
+
     <div
       className="share-favorite-container"
     >
@@ -72,7 +90,7 @@ function ShareFavoriteBtn() {
       >
         <img
           data-testid="favorite-btn"
-          src={ favIcon }
+          src={ isFavorite ? isFavIcon : favIcon }
           alt="Favorite Icon"
         />
       </button>
