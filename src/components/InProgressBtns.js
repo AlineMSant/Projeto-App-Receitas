@@ -11,7 +11,7 @@ import {
 
 const copy = require('clipboard-copy');
 
-function ShareFavoriteBtn() {
+function InProgressBtns() {
   const {
     copyMessageToggle,
     setCopyMessageToggle,
@@ -19,7 +19,8 @@ function ShareFavoriteBtn() {
     isFavorite,
     setIsFavorite,
   } = useContext(RecipesContext);
-  const recipeLink = window.location.href;
+  const recipeLink = window.location.href
+    .substring(window.location.href, window.location.href.lastIndexOf('/'));
 
   function CopyToClipboard() {
     setCopyMessageToggle(true);
@@ -66,14 +67,14 @@ function ShareFavoriteBtn() {
     setIsFavorite(isFavorited);
   }, [details, setIsFavorite]);
 
-  // useEffect(() => {
-  //   const fiveSeconds = 5000;
-  //   const disableMessage = setTimeout(() => {
-  //     setCopyMessageToggle(false);
-  //   }, fiveSeconds);
+  useEffect(() => {
+    const fiveSeconds = 5000;
+    const disableMessage = setTimeout(() => {
+      setCopyMessageToggle(false);
+    }, fiveSeconds);
 
-  //   return () => clearTimeout(disableMessage);
-  // }, [setCopyMessageToggle]);
+    return () => clearTimeout(disableMessage);
+  }, [setCopyMessageToggle]);
 
   return (
 
@@ -113,4 +114,4 @@ function ShareFavoriteBtn() {
   );
 }
 
-export default ShareFavoriteBtn;
+export default InProgressBtns;

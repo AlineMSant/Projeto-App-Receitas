@@ -2,9 +2,9 @@ import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import { fetchIdMeal, fetchIdDrink } from '../services/fetchAPI';
-import ShareFavoriteBtn from '../components/ShareFavoriteBtn';
 import FinishBtn from '../components/FinishBtn';
 import '../assets/styles/RecipeInProgress.css';
+import InProgressBtns from '../components/InProgressBtns';
 
 export default function RecipeInProgress() {
   const { loading,
@@ -156,7 +156,7 @@ export default function RecipeInProgress() {
               <p data-testid="instructions">{ details[0].strInstructions }</p>
             </div>
           )}
-          <ShareFavoriteBtn />
+          <InProgressBtns />
           <FinishBtn />
         </div>
       )}
