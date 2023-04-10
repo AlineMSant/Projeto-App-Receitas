@@ -7,6 +7,12 @@ function BtnFiltersFav() {
     const savedFavoriteRecipes = getFavoriteRecipe();
     setArrayFavoriteRecipes(savedFavoriteRecipes);
   }, []);
+
+  return (
+    <div>
+        
+    </div>
+  );
 }
 
 export default BtnFiltersFav;
