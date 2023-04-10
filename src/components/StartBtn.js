@@ -17,15 +17,18 @@ function StartBtn() {
   useEffect(() => {
     const arrayDone = getDoneRecipes();
     const objInProgress = getInProgressRecipes();
+    console.log(objInProgress);
 
-    if (arrayDone && objInProgress) {
+    if (arrayDone) {
       const arrayIdsDone = arrayDone.map((obj) => obj.id);
-      const arrayDrinksIdsProgress = Object.keys(objInProgress.drinks);
-      const arrayMealsIdsProgress = Object.keys(objInProgress.meals);
-      const arrayAllIdsProgress = [...arrayDrinksIdsProgress, ...arrayMealsIdsProgress];
+      setArrayDoneRecipes(arrayIdsDone);
+    }
+
+    if (objInProgress) {
+      const arrayAllIdsProgress = routeMeals ? [...Object.keys(objInProgress.meals)]
+        : [...Object.keys(objInProgress.drinks)];
 
       setArrayInProgress(arrayAllIdsProgress);
-      setArrayDoneRecipes(arrayIdsDone);
     }
   }, []);
 
