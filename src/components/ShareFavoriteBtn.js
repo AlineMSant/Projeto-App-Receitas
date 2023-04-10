@@ -57,7 +57,6 @@ function ShareFavoriteBtn() {
       saveFavoriteRecipe(favoriteRecipe);
       setIsFavorite(true);
     }
-    console.log(removeFavoriteRecipe);
   }
 
   useEffect(() => {
