@@ -2,10 +2,11 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { getEmail } from '../helpers/LocalStorage';
 
 function Profile() {
   const history = useHistory();
-  const emailLocalStorage = JSON.parse(localStorage.getItem('user'));
+  const emailLocalStorage = getEmail();
 
   const handleClickLogout = () => {
     // https://developer.mozilla.org/pt-BR/docs/Web/API/Storage/clear
