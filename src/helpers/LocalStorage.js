@@ -7,31 +7,9 @@ export const getEmail = () => {
   return email;
 };
 
-// utilizar no requisito que solicitar doneRecipes LOCALSTORAGE, retirei o save de Login foi feito para testar requisito 29.
-export const saveDoneRecipes = () => {
-  const doneRecipe = [{
-    id: '52977',
-    type: 'meal',
-    nationality: 'Turkish',
-    category: 'Side',
-    alcoholicOrNot: '',
-    name: 'Corba',
-    image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
-    doneDate: '2022/March/7',
-    tags: ['Soup'],
-  },
-  {
-    id: '17222',
-    type: 'drink',
-    nationality: '',
-    category: 'Cocktail',
-    alcoholicOrNot: 'Alcoholic',
-    name: 'A1',
-    image: 'https://www.thecocktaildb.com/images/media/drink/2x8thr1504816928.jpg',
-    doneDate: '2022/March/7',
-    tags: [],
-  }];
-
+export const saveDoneRecipes = (doneDetails) => {
+  const doneRecipe = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+  doneRecipe.push(doneDetails);
   localStorage.setItem('doneRecipes', JSON.stringify(doneRecipe));
 };
 
