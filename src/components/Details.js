@@ -4,6 +4,7 @@ import RecipesContext from '../context/RecipesContext';
 import { fetchIdMeal, fetchIdDrink } from '../services/fetchAPI';
 import MealsRecommendations from './MealsRecommendations';
 import DrinksRecommendations from './DrinksRecommendations';
+import '../assets/styles/Details.css';
 
 function Details() {
   const { loading,
@@ -79,6 +80,7 @@ function Details() {
           {routeMeals ? (
             <div>
               <img
+                className="img-details"
                 data-testid="recipe-photo"
                 src={ details[0].strMealThumb }
                 alt={ details[0].strMeal }
@@ -110,6 +112,7 @@ function Details() {
           ) : (
             <div>
               <img
+                className="img-details"
                 data-testid="recipe-photo"
                 src={ details[0].strDrinkThumb }
                 alt={ details[0].strDrink }

@@ -17,7 +17,6 @@ function StartBtn() {
   useEffect(() => {
     const arrayDone = getDoneRecipes();
     const objInProgress = getInProgressRecipes();
-    console.log(objInProgress);
 
     if (arrayDone) {
       const arrayIdsDone = arrayDone.map((obj) => obj.id);
