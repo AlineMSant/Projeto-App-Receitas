@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../context/AppContext';
-import { saveEmail } from '../helpers/LocalStorage';
+import { saveEmail, saveDoneRecipes,
+  saveInProgressRecipes } from '../helpers/LocalStorage';
 
 function Login() {
   const { email, setEmail, password, setPassword } = useContext(AppContext);
@@ -20,6 +21,8 @@ function Login() {
 
   function handleClick() {
     saveEmail(email);
+    saveDoneRecipes();
+    saveInProgressRecipes();
     // para getItem JSON.parse(localStorage.getItem('user'));
     history.push('/meals');
   }

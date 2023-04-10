@@ -7,7 +7,7 @@ export const getEmail = () => {
   return email;
 };
 
-// utilizar no requisito que solicitar doneRecipes LOCALSTORAGE
+// utilizar no requisito que solicitar doneRecipes LOCALSTORAGE, retirei o save de Login foi feito para testar requisito 29.
 export const saveDoneRecipes = () => {
   const doneRecipe = [{
     id: '52977',
@@ -21,13 +21,13 @@ export const saveDoneRecipes = () => {
     tags: ['Soup'],
   },
   {
-    id: '178319',
+    id: '17222',
     type: 'drink',
     nationality: '',
     category: 'Cocktail',
-    alcoholicOrNot: '',
-    name: 'Aquamarine',
-    image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+    alcoholicOrNot: 'Alcoholic',
+    name: 'A1',
+    image: 'https://www.thecocktaildb.com/images/media/drink/2x8thr1504816928.jpg',
     doneDate: '2022/March/7',
     tags: [],
   }];
@@ -37,6 +37,24 @@ export const saveDoneRecipes = () => {
 
 export const getDoneRecipes = () => {
   const arrayDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  return arrayDoneRecipes;
+};
+
+export const saveInProgressRecipes = () => {
+  const recipesInProgress = {
+    drinks: {
+      178319: ['Galliano', 'Ginger ale', 'Ice'],
+    },
+    meals: {
+      52771: ['Filo Pastry', 'Minced Beef', 'Onion', 'Oil', 'Salt', 'Pepper'],
+    },
+  };
+
+  localStorage.setItem('inProgressRecipes', JSON.stringify(recipesInProgress));
+};
+
+export const getInProgressRecipes = () => {
+  const arrayDoneRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
   return arrayDoneRecipes;
 };
 
@@ -53,13 +71,4 @@ export const getFavoriteRecipe = () => {
 
 export const updateFavoriteRecipe = (newRecipes) => {
   localStorage.setItem('favoriteRecipes', JSON.stringify(newRecipes));
-};
-
-export default {
-  saveEmail,
-  getEmail,
-  saveDoneRecipes,
-  saveFavoriteRecipe,
-  getFavoriteRecipe,
-  updateFavoriteRecipe,
 };
