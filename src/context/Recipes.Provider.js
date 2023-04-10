@@ -17,6 +17,7 @@ export function RecipesProvider({ children }) {
   const [measures, setMeasures] = useState([]);
   const [mealsRecommendations, setMealsRecommendations] = useState([]);
   const [drinksRecommendations, setDrinksRecommendations] = useState([]);
+  const [disableBtnFinish, setDisableBtnFinish] = useState(true);
   const [copyMessageToggle, setCopyMessageToggle] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -49,6 +50,8 @@ export function RecipesProvider({ children }) {
     setMealsRecommendations,
     drinksRecommendations,
     setDrinksRecommendations,
+    disableBtnFinish,
+    setDisableBtnFinish,
     copyMessageToggle,
     setCopyMessageToggle,
     isFavorite,
@@ -68,6 +71,7 @@ export function RecipesProvider({ children }) {
     measures,
     mealsRecommendations,
     drinksRecommendations,
+    disableBtnFinish,
     isFavorite,
     setIsFavorite,
     copyMessageToggle,
