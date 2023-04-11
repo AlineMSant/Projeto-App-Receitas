@@ -1,3 +1,18 @@
 .img-details {
-  width: 220px;
+  width: 360px;
+}
+
+.image_carousel {
+  width: 180px;
+}
+
+.recommendation-card {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.individual {
+  width: 50%;
 }
