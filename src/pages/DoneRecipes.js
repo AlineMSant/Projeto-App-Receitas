@@ -24,6 +24,7 @@ function DoneRecipes() {
     const doneRecipes = getDoneRecipes();
     setArrayDoneRecipes(doneRecipes);
     setArrayDoneRecipesFiltered(doneRecipes);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
