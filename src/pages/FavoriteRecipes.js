@@ -62,7 +62,9 @@ function FavoriteRecipes() {
             </div>
           ) : (
             <div>
-              <h2 data-testid={ `${index}-horizontal-top-text` }>{ recipe.category }</h2>
+              <h2 data-testid={ `${index}-horizontal-top-text` }>
+                { recipe.alcoholicOrNot }
+              </h2>
               <h1 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h1>
             </div>
           ) }
