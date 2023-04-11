@@ -53,8 +53,21 @@ function FavoriteRecipes() {
             alt={ recipe.name }
           />
 
-          <h2 data-testid={ `${index}-horizontal-top-text` }>{ recipe.category }</h2>
-          <h1 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h1>
+          { recipe.type === 'meal' ? (
+            <div>
+              <h2 data-testid={ `${index}-horizontal-top-text` }>
+                { `${recipe.nationality} - ${recipe.category}` }
+              </h2>
+              <h1 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h1>
+            </div>
+          ) : (
+            <div>
+              <h2 data-testid={ `${index}-horizontal-top-text` }>
+                { recipe.alcoholicOrNot }
+              </h2>
+              <h1 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h1>
+            </div>
+          ) }
 
           { copyMessageToggle
             ? (
