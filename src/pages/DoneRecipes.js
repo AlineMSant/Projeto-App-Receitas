@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import RecipesContext from '../context/RecipesContext';
 import shareIcon from '../images/shareIcon.svg';
 import BtnFiltersDone from '../components/BtnFiltersDone';
 import Header from '../components/Header';
@@ -7,7 +8,8 @@ import { getDoneRecipes } from '../helpers/LocalStorage';
 const copy = require('clipboard-copy');
 
 function DoneRecipes() {
-  const [arrayDoneRecipes, setArrayDoneRecipes] = useState([]);
+  const { arrayDoneRecipes, setArrayDoneRecipes,
+    setArrayDoneRecipesFiltered } = useContext(RecipesContext);
   const [copyMessageToggle, setCopyMessageToggle] = useState(false);
 
   const recipeLink = window.location.href
@@ -21,6 +23,7 @@ function DoneRecipes() {
   useEffect(() => {
     const doneRecipes = getDoneRecipes();
     setArrayDoneRecipes(doneRecipes);
+    setArrayDoneRecipesFiltered(doneRecipes);
   }, []);
 
   useEffect(() => {

@@ -20,6 +20,8 @@ export function RecipesProvider({ children }) {
   const [disableBtnFinish, setDisableBtnFinish] = useState(true);
   const [copyMessageToggle, setCopyMessageToggle] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [arrayDoneRecipes, setArrayDoneRecipes] = useState([]);
+  const [arrayDoneRecipesFiltered, setArrayDoneRecipesFiltered] = useState([]);
 
   const context = useMemo(() => ({
     meals,
@@ -56,6 +58,10 @@ export function RecipesProvider({ children }) {
     setCopyMessageToggle,
     isFavorite,
     setIsFavorite,
+    arrayDoneRecipes,
+    setArrayDoneRecipes,
+    arrayDoneRecipesFiltered,
+    setArrayDoneRecipesFiltered,
   }), [
     meals,
     drinks,
@@ -76,6 +82,8 @@ export function RecipesProvider({ children }) {
     setIsFavorite,
     copyMessageToggle,
     setCopyMessageToggle,
+    arrayDoneRecipes,
+    arrayDoneRecipesFiltered,
   ]);
 
   return (
