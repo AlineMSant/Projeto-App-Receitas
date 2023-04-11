@@ -1,41 +1,39 @@
-import React, { useEffect, useState, useContext } from 'react';
-import RecipesContext from '../context/RecipesContext';
+import React, { useEffect, useState } from 'react';
+// import RecipesContext from '../context/RecipesContext';
 import shareIcon from '../images/shareIcon.svg';
 import BtnFiltersDone from '../components/BtnFiltersDone';
 import Header from '../components/Header';
 import { getDoneRecipes } from '../helpers/LocalStorage';
 
-const copy = require('clipboard-copy');
+// const copy = require('clipboard-copy');
 
 function DoneRecipes() {
   const [arrayDoneRecipes, setArrayDoneRecipes] = useState([]);
-  const {
-    setCopyMessageToggle,
-    copyMessageToggle,
-  } = useContext(RecipesContext);
-
-  console.log(arrayDoneRecipes);
+  // const {
+  //   setCopyMessageToggle,
+  //   copyMessageToggle,
+  // } = useContext(RecipesContext);
 
   useEffect(() => {
     const doneRecipes = getDoneRecipes();
     setArrayDoneRecipes(doneRecipes);
   }, []);
 
-  const recipeLink = window.location.href;
+  // const recipeLink = window.location.href;
 
-  function CopyToClipboard() {
-    setCopyMessageToggle(true);
-    return copy(recipeLink);
-  }
+  // function CopyToClipboard() {
+  //   setCopyMessageToggle(true);
+  //   return copy(recipeLink);
+  // }
 
-  useEffect(() => {
-    const fiveSeconds = 5000;
-    const disableMessage = setTimeout(() => {
-      setCopyMessageToggle(false);
-    }, fiveSeconds);
+  // useEffect(() => {
+  //   const fiveSeconds = 5000;
+  //   const disableMessage = setTimeout(() => {
+  //     setCopyMessageToggle(false);
+  //   }, fiveSeconds);
 
-    return () => clearTimeout(disableMessage);
-  }, [setCopyMessageToggle]);
+  //   return () => clearTimeout(disableMessage);
+  // }, [setCopyMessageToggle]);
 
   return (
     <div>
@@ -98,16 +96,16 @@ function DoneRecipes() {
             </div>
           )}
 
-          { copyMessageToggle
+          {/* { copyMessageToggle
             ? (
               <div>
                 <span>Link copied!</span>
-              </div>) : null }
+              </div>) : null } */}
 
           <button
             type="button"
             className="share-btn"
-            onClick={ () => CopyToClipboard() }
+            // onClick={ () => CopyToClipboard() }
           >
 
             <img
