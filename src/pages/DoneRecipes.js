@@ -14,6 +14,8 @@ function DoneRecipes() {
     copyMessageToggle,
   } = useContext(RecipesContext);
 
+  console.log(arrayDoneRecipes);
+
   useEffect(() => {
     const doneRecipes = getDoneRecipes();
     setArrayDoneRecipes(doneRecipes);
@@ -48,22 +50,53 @@ function DoneRecipes() {
             alt={ recipe.name }
           />
 
-          <h2 data-testid={ `${index}-horizontal-top-text` }>{ recipe.category }</h2>
-          <h1 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h1>
-          <h2
-            data-testid={ `${index}-horizontal-done-date` }
-          >
-            { recipe.doneDate }
-          </h2>
+          {recipe.type === 'meal' ? (
+            <div>
+              <h2
+                data-testid={ `${index}-horizontal-top-text` }
+              >
+                { `${recipe.nationality} - ${recipe.category}` }
+              </h2>
+              <h1 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h1>
+              <h2
+                data-testid={ `${index}-horizontal-done-date` }
+              >
+                { recipe.doneDate }
+              </h2>
 
-          {recipe.tags.map((tag) => (
-            <p
-              key={ tag }
-              data-testid={ `${index}-${tag}-horizontal-tag` }
-            >
-              { tag }
-            </p>
-          ))}
+              {recipe.tags.map((tag) => (
+                <p
+                  key={ tag }
+                  data-testid={ `${index}-${tag}-horizontal-tag` }
+                >
+                  { tag }
+                </p>
+              ))}
+            </div>
+          ) : (
+            <div>
+              <h2
+                data-testid={ `${index}-horizontal-top-text` }
+              >
+                { recipe.alcoholicOrNot }
+              </h2>
+              <h1 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h1>
+              <h2
+                data-testid={ `${index}-horizontal-done-date` }
+              >
+                { recipe.doneDate }
+              </h2>
+
+              {recipe.tags.map((tag) => (
+                <p
+                  key={ tag }
+                  data-testid={ `${index}-${tag}-horizontal-tag` }
+                >
+                  { tag }
+                </p>
+              ))}
+            </div>
+          )}
 
           { copyMessageToggle
             ? (
