@@ -14,7 +14,6 @@ function DoneRecipes() {
     setArrayDoneRecipesFiltered } = useContext(RecipesContext);
   const [copyMessageToggle, setCopyMessageToggle] = useState(false);
   const history = useHistory();
-  console.log(arrayDoneRecipes);
 
   const recipeLink = window.location.href
     .substring(window.location.href, window.location.href.lastIndexOf('/'));
