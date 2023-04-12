@@ -5,6 +5,7 @@ import { fetchIdMeal, fetchIdDrink } from '../services/fetchAPI';
 import FinishBtn from '../components/FinishBtn';
 import '../assets/styles/RecipeInProgress.css';
 import InProgressBtns from '../components/InProgressBtns';
+import { saveInProgressRecipes } from '../helpers/LocalStorage';
 
 export default function RecipeInProgress() {
   const { loading,
@@ -22,7 +23,38 @@ export default function RecipeInProgress() {
   const id = pathname.split('/')[2];
   const routeMeals = pathname.includes('/meals');
 
+  const getLocalStorage = () => {
+    if (localStorage.inProgressRecipes !== undefined) {
+      const arrayInProgressRecipes = JSON.parse(localStorage
+        .getItem('inProgressRecipes'));
+
+      let arrayOfIngredients = [];
+
+      if (routeMeals) {
+        arrayOfIngredients = arrayInProgressRecipes.meals[id];
+      } else {
+        arrayOfIngredients = arrayInProgressRecipes.drinks[id];
+      }
+
+      arrayOfIngredients.forEach((ingredient) => {
+        const inputs = document.getElementsByClassName('checkbox');
+        for (let index = 0; index < inputs.length; index += 1) {
+          if (inputs[index].name === ingredient) {
+            inputs[index].checked = true;
+            const { parentNode } = inputs[index];
+            parentNode.className = 'selected';
+          }
+        }
+      });
+    }
+  };
+
   useEffect(() => {
+    getLocalStorage();
+  });
+
+  useEffect(() => {
+    getLocalStorage();
     const requestIdMeal = async () => {
       const data = await fetchIdMeal(id);
       const number = 21;
@@ -71,7 +103,7 @@ export default function RecipeInProgress() {
     if (pathname === `/drinks/${id}/in-progress`) {
       requestIdDrink();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (e) => {
@@ -79,9 +111,30 @@ export default function RecipeInProgress() {
 
     if (e.target.checked === true) {
       label.className = 'selected';
+      const arrayOfSelecteds = [];
+
+      const selecteds = document.querySelectorAll('.selected');
+      selecteds.forEach((selected) => arrayOfSelecteds.push(selected.firstChild.name));
+      if (routeMeals) {
+        const objMeals = {
+          meals: {
+            [id]: arrayOfSelecteds,
+          },
+        };
+        // Salva no localStorage:
+        saveInProgressRecipes(objMeals);
+      } else {
+        const objDrinks = {
+          drinks: {
+            [id]: arrayOfSelecteds,
+          },
+        };
+        saveInProgressRecipes(objDrinks);
+      }
     } else {
       label.className = 'no-selected';
     }
+
     const inputs = document.querySelectorAll('.checkbox');
     const arrayOfBooleans = [];
     inputs.forEach((input) => {
@@ -109,14 +162,15 @@ export default function RecipeInProgress() {
                 {ingredients.map((ingredient, index) => (
                   <label
                     key={ index }
-                    data-testid={ `data-testid=${index}-ingredient-step` }
-                    id={ `data-testid=${index}-ingredient-step` }
+                    data-testid={ `${index}-ingredient-step` }
+                    id={ `${index}-ingredient-step` }
                   >
                     <input
                       className="checkbox"
                       type="checkbox"
-                      id={ `data-testid=${index}-ingredient-step` }
-                      name={ `${ingredient} ${measures[index]}` }
+                      data-testid={ `${index}-ingredient-step` }
+                      id={ `${index}-ingredient-step` }
+                      name={ `${ingredient}` }
                       onChange={ (e) => handleChange(e) }
                     />
                     { `${ingredient} ${measures[index]}` }
@@ -139,14 +193,15 @@ export default function RecipeInProgress() {
                 {ingredients.map((ingredient, index) => (
                   <label
                     key={ index }
-                    data-testid={ `data-testid=${index}-ingredient-step` }
-                    id={ `data-testid=${index}-ingredient-step` }
+                    data-testid={ `${index}-ingredient-step` }
+                    id={ `${index}-ingredient-step` }
                   >
                     <input
                       className="checkbox"
-                      id={ `data-testid=${index}-ingredient-step` }
+                      id={ `${index}-ingredient-step` }
                       type="checkbox"
-                      name={ `${ingredient} ${measures[index]}` }
+                      data-testid={ `${index}-ingredient-step` }
+                      name={ `${ingredient}` }
                       onChange={ (e) => handleChange(e) }
                     />
                     { `${ingredient} ${measures[index]}` }
