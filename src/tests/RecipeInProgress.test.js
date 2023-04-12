@@ -96,11 +96,11 @@ describe('Teste RecipeInProgress', () => {
     expect(ingredients).toHaveLength(3);
     expect(instructionsRecipeDetails).toBeVisible();
 
-    const ingredients0 = await screen.findByTestId('data-testid=0-ingredient-step');
+    const ingredients0 = await screen.findAllByTestId('0-ingredient-step');
 
     userEvent.click(ingredients[0]);
-    expect(ingredients0).toHaveAttribute('class', 'selected');
+    expect(ingredients0[0]).toHaveAttribute('class', 'selected');
     userEvent.click(ingredients[0]);
-    expect(ingredients0).toHaveAttribute('class', 'no-selected');
+    expect(ingredients0[0]).toHaveAttribute('class', 'no-selected');
   });
 });

@@ -18,18 +18,8 @@ export const getDoneRecipes = () => {
   return arrayDoneRecipes;
 };
 
-// utilizar no requisito que solicitar doneRecipes LOCALSTORAGE, retirei o save de Login foi feito para testar requisito 30.
-export const saveInProgressRecipes = () => {
-  const recipesInProgress = {
-    drinks: {
-      178319: ['Galliano', 'Ginger ale', 'Ice'],
-    },
-    meals: {
-      52771: ['Filo Pastry', 'Minced Beef', 'Onion', 'Oil', 'Salt', 'Pepper'],
-    },
-  };
-
-  localStorage.setItem('inProgressRecipes', JSON.stringify(recipesInProgress));
+export const saveInProgressRecipes = (obj) => {
+  localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
 };
 
 export const getInProgressRecipes = () => {

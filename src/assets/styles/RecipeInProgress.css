@@ -1,3 +1,7 @@
 .selected {
   text-decoration: line-through solid black;
 }
+
+.img-inprogress {
+  width: 360px;
+}
