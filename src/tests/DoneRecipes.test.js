@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, act } from '@testing-library/react';
+import { screen, act, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 // import fetch from '../../cypress/mocks/fetch';
@@ -36,6 +36,9 @@ describe('Teste DoneRecipes', () => {
     // await waitFor(() => {
     //   expect(global.fetch).toBeCalled();
     // });
+
+    const loading = await screen.findByText('Carregando...');
+    waitForElementToBeRemoved(loading);
 
     const btnStart = await screen.findByRole('button', { name: 'Start Recipe' });
     userEvent.click(btnStart);
