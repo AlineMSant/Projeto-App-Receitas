@@ -65,9 +65,7 @@ describe('Teste FavoriteRecipes', () => {
     const imgFavoriteAfterAll = await screen.findByTestId(imgTestIdFavorite);
     expect(imgFavoriteAfterAll).toBeVisible();
 
-    await act(async () => {
-      history.push('/meals/53060');
-    });
+    userEvent.click(imgFavoriteAfterAll);
 
     const img1 = await screen.findByTestId('recipe-photo');
     expect(img1).toBeVisible();
