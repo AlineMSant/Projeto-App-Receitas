@@ -67,14 +67,14 @@ function InProgressBtns() {
     setIsFavorite(isFavorited);
   }, [details, setIsFavorite]);
 
-  useEffect(() => {
-    const fiveSeconds = 5000;
-    const disableMessage = setTimeout(() => {
-      setCopyMessageToggle(false);
-    }, fiveSeconds);
+  // useEffect(() => {
+  //   const fiveSeconds = 5000;
+  //   const disableMessage = setTimeout(() => {
+  //     setCopyMessageToggle(false);
+  //   }, fiveSeconds);
 
-    return () => clearTimeout(disableMessage);
-  }, [setCopyMessageToggle]);
+  //   return () => clearTimeout(disableMessage);
+  // }, [setCopyMessageToggle]);
 
   return (
 

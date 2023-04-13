@@ -6,10 +6,25 @@ import fetch from '../../cypress/mocks/fetch';
 import { renderWithRouter } from './helpers/renderWithRouter';
 
 describe('Teste RecipeInProgress', () => {
+  const initialClipboardText = { ...global.navigator.clipboard };
   beforeEach(() => {
     global.fetch = jest.fn(fetch);
+    let clipboardText = '';
+    const mockClipboard = {
+      writeText: jest.fn(
+        () => { clipboardText = 'http://localhost:3000/meals/52771'; },
+      ),
+      readText: jest.fn(
+        () => clipboardText,
+      ),
+    };
+    global.navigator.clipboard = mockClipboard;
   });
-  it('Teste RecipeInProgress Meals', async () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+    global.navigator.clipboard = initialClipboardText;
+  });
+  it('Teste RecipeInProgress Meals e botão de compartilhar', async () => {
     const { history } = renderWithRouter(<App />);
 
     await act(async () => {
@@ -46,6 +61,18 @@ describe('Teste RecipeInProgress', () => {
     const ingredients = await screen.findAllByRole('checkbox');
     const instructionsRecipeDetails = await screen.findByTestId('instructions');
 
+    const shareBtn = await screen.findByTestId('share-btn');
+
+    userEvent.click(shareBtn);
+
+    const shareLink = 'http://localhost:3000/meals/52771';
+
+    const shareMessage = screen.getByText('Link copied!');
+
+    expect(navigator.clipboard.readText()).toBe(shareLink);
+    expect(navigator.clipboard.writeText).toBeCalledTimes(1);
+    expect(shareMessage).toBeInTheDocument();
+
     expect(imgRecipeDetails).toBeVisible();
     expect(titleRecipeDetails).toBeVisible();
     expect(categoryRecipeDetails).toBeVisible();
@@ -53,7 +80,7 @@ describe('Teste RecipeInProgress', () => {
     expect(instructionsRecipeDetails).toBeVisible();
   });
 
-  it('Teste RecipeInProgress Drinks', async () => {
+  it('Teste RecipeInProgress Drinks e botão de favoritar', async () => {
     const { history } = renderWithRouter(<App />);
 
     await act(async () => {
@@ -89,6 +116,7 @@ describe('Teste RecipeInProgress', () => {
     const categoryRecipeDetails = await screen.findByTestId('recipe-category');
     const ingredients = await screen.findAllByRole('checkbox');
     const instructionsRecipeDetails = await screen.findByTestId('instructions');
+    const btnFavorite = await screen.findByTestId('favorite-btn');
 
     expect(imgRecipeDetails).toBeVisible();
     expect(titleRecipeDetails).toBeVisible();
@@ -102,5 +130,25 @@ describe('Teste RecipeInProgress', () => {
     expect(ingredients0[0]).toHaveAttribute('class', 'selected');
     userEvent.click(ingredients[0]);
     expect(ingredients0[0]).toHaveAttribute('class', 'no-selected');
+
+    userEvent.click(btnFavorite);
+
+    await act(async () => {
+      history.push('/favorite-recipes');
+    });
+
+    const imgFavorite = await screen.findByTestId('0-horizontal-image');
+    expect(imgFavorite).toBeVisible();
+
+    userEvent.click(imgFavorite);
+
+    const btnFavorite1 = await screen.findByTestId('favorite-btn');
+    userEvent.click(btnFavorite1);
+
+    await act(async () => {
+      history.push('/favorite-recipes');
+    });
+
+    expect(imgFavorite).not.toBeVisible();
   });
 });
