@@ -5,6 +5,23 @@ import App from '../App';
 import { renderWithRouter } from './helpers/renderWithRouter';
 
 describe('Teste FavoriteRecipes', () => {
+  const initialClipboardText = { ...global.navigator.clipboard };
+  beforeEach(() => {
+    let clipboardText = '';
+    const mockClipboard = {
+      writeText: jest.fn(
+        () => { clipboardText = 'http://localhost:3000/meals/53060'; },
+      ),
+      readText: jest.fn(
+        () => clipboardText,
+      ),
+    };
+    global.navigator.clipboard = mockClipboard;
+  });
+  afterEach(() => {
+    jest.resetAllMocks();
+    global.navigator.clipboard = initialClipboardText;
+  });
   const imgTestIdFavorite = '0-horizontal-image';
   const photoTestId = 'recipe-photo';
   const favoriteBtnTestId = 'favorite-btn';
@@ -49,6 +66,7 @@ describe('Teste FavoriteRecipes', () => {
     const imgFavorite = await screen.findByTestId(imgTestIdFavorite);
     const nameFavorite = await screen.findByTestId('0-horizontal-name');
     const btnFavorite = await screen.findByTestId('0-horizontal-favorite-btn');
+    const btnShare = await screen.findByTestId('0-horizontal-share-btn');
 
     expect(btnAllFavorite).toBeVisible();
     expect(btnMealsFavorite).toBeVisible();
@@ -56,6 +74,15 @@ describe('Teste FavoriteRecipes', () => {
     expect(imgFavorite).toBeVisible();
     expect(nameFavorite).toBeVisible();
     expect(btnFavorite).toBeVisible();
+    expect(btnShare).toBeVisible();
+
+    userEvent.click(btnShare);
+    const shareLink = 'http://localhost:3000/meals/53060';
+    const shareMessage = screen.getByText('Link copied!');
+
+    expect(navigator.clipboard.readText()).toBe(shareLink);
+    expect(navigator.clipboard.writeText).toBeCalledTimes(1);
+    expect(shareMessage).toBeInTheDocument();
 
     userEvent.click(btnDrinksFavorite);
     expect(imgFavorite).not.toBeVisible();
@@ -131,5 +158,14 @@ describe('Teste FavoriteRecipes', () => {
     userEvent.click(nameFavorite);
 
     expect(history.location.pathname).toBe('/meals/53060');
+
+    await act(async () => {
+      history.push(routeFavoriteRecipes);
+    });
+
+    const favoriteBtn2 = await screen.findByTestId('0-horizontal-favorite-btn');
+    expect(favoriteBtn2).toBeVisible();
+    userEvent.click(favoriteBtn2);
+    expect(favoriteBtn2).not.toBeVisible();
   });
 });
