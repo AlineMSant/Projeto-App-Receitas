@@ -34,16 +34,19 @@ function App() {
 
 export default App;
 
-// Requisito 1/2/3/4/5/6/20: Aline, Nicola, Camila, Patrick, Samara;
-// Requisito 7/8: Patrick;
-// Requisito 9/23/24/25: Aline, Nicola, Patrick, Samara;
-// Requisito 10: Aline, Camila;
-// Requisito 13/14/15: Aline, Patrick, Camila, Samara;
-// Requisito 16/18: Aline, Nicola;
+// Requisito 11/12/29/30/31/45/46/57/58/59/60/61/62: Aline;
 // Requisito 17: Nicola;
-// Requisito 19: Samara;
+// Requisito 7/8/33/34/35/36/41/42/47/50/51/53/54: Patrick;
+// Requisito 19/38: Samara;
+// Requisito 10/48: Aline, Camila;
+// Requisito 16/18: Aline, Nicola;
+// Requisito 22/27: Nicola, Patrick;
+// Requisito 37: Patrick, Samara;
+// Requisito 40/43/44: Aline, Samara;
+// Requisito 49/52: Aline, Patrick;
 // Requisito 21: Aline, Nicola, Patrick;
-// Requisito 22: Nicola, Patrick;
-// Requisito 11/12/57/58/59/60/21/62: Aline;
-// Requisito 28/32: Patrick, Samara, Nicola;
-// Requisito 33/34/35/36: Patrick;
+// Requisito 26/28/32: Patrick, Samara, Nicola;
+// Requisito 39: Aline, Patrick, Samara;
+// Requisito 9/23/24/25: Aline, Nicola, Patrick, Samara;
+// Requisito 13/14/15: Aline, Patrick, Camila, Samara;
+// Requisito 1/2/3/4/5/6/20: Aline, Nicola, Camila, Patrick, Samara;
