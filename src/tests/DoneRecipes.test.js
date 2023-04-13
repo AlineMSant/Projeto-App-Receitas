@@ -9,6 +9,7 @@ describe('Teste DoneRecipes', () => {
   // beforeEach(() => {
   //   global.fetch = jest.fn(fetch);
   // });
+  const imgTestId = '0-horizontal-image';
   it('Teste se a page DoneRecipes é renderizada corretamente para meals', async () => {
     const { history } = renderWithRouter(<App />);
 
@@ -62,7 +63,7 @@ describe('Teste DoneRecipes', () => {
     const btnAll = await screen.findByTestId('filter-by-all-btn');
     const btnMeals = await screen.findByTestId('filter-by-meal-btn');
     const btnDrinks = await screen.findByTestId('filter-by-drink-btn');
-    const img = await screen.findByTestId('0-horizontal-image');
+    const img = await screen.findByTestId(imgTestId);
     const category = await screen.findByTestId('0-horizontal-top-text');
     const name = await screen.findByTestId('0-horizontal-name');
     const date = await screen.findByTestId('0-horizontal-done-date');
@@ -78,6 +79,17 @@ describe('Teste DoneRecipes', () => {
     expect(date).toBeVisible();
     expect(ingredient).toBeVisible();
     expect(btnShare).toBeVisible();
+
+    userEvent.click(btnDrinks);
+    expect(img).not.toBeVisible();
+
+    userEvent.click(btnMeals);
+    const imgAfterClickMeals = await screen.findByTestId(imgTestId);
+    expect(imgAfterClickMeals).toBeVisible();
+
+    userEvent.click(btnAll);
+    const imgAfterClickAll = await screen.findByTestId(imgTestId);
+    expect(imgAfterClickAll).toBeVisible();
   });
 
   it('Teste se ao clicar na imagem é redirecionado corretamente', async () => {
