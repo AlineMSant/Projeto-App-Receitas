@@ -64,5 +64,22 @@ describe('Teste FavoriteRecipes', () => {
     userEvent.click(btnAllFavorite);
     const imgFavoriteAfterAll = await screen.findByTestId(imgTestIdFavorite);
     expect(imgFavoriteAfterAll).toBeVisible();
+
+    await act(async () => {
+      history.push('/meals/53060');
+    });
+
+    const img1 = await screen.findByTestId('recipe-photo');
+    expect(img1).toBeVisible();
+
+    const favoriteBtn1 = await screen.findByTestId('favorite-btn');
+    expect(favoriteBtn1).toBeVisible();
+    userEvent.click(favoriteBtn1);
+
+    await act(async () => {
+      history.push('/favorite-recipes');
+    });
+
+    expect(btnFavorite).not.toBeVisible();
   });
 });
