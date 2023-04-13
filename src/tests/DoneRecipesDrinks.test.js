@@ -36,7 +36,7 @@ describe('Teste DoneRecipes', () => {
     //   expect(global.fetch).toBeCalled();
     // });
 
-    const btnStart = await screen.findByTestId('start-recipe-btn');
+    const btnStart = await screen.findByRole('button', { name: 'Start Recipe' });
     userEvent.click(btnStart);
 
     const imgRecipeDetailsDrink = await screen.findByTestId('recipe-photo');
@@ -61,5 +61,33 @@ describe('Teste DoneRecipes', () => {
     const ingredientDrink = await screen.findByText('IBA');
 
     expect(ingredientDrink).toBeVisible();
+  });
+
+  it('Teste se ao clicar na imagem é redirecionado corretamente', async () => {
+    const { history } = renderWithRouter(<App />);
+
+    await act(async () => {
+      history.push('/drinks/15853/in-progress');
+    });
+
+    // await waitFor(() => {
+    //   expect(global.fetch).toBeCalled();
+    // });
+
+    const ingredientsDrink = await screen.findAllByRole('checkbox');
+
+    expect(ingredientsDrink).toHaveLength(3);
+
+    userEvent.click(ingredientsDrink[0]);
+    userEvent.click(ingredientsDrink[1]);
+    userEvent.click(ingredientsDrink[2]);
+
+    const btnFinish = screen.getByTestId('finish-recipe-btn');
+    userEvent.click(btnFinish);
+
+    const img = await screen.findByTestId('0-horizontal-image');
+    userEvent.click(img);
+
+    expect(history.location.pathname).toBe('/drinks/15853');
   });
 });
