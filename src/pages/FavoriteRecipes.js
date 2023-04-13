@@ -38,14 +38,14 @@ function FavoriteRecipes() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    const fiveSeconds = 5000;
-    const disableMessage = setTimeout(() => {
-      setCopyMessageToggle(false);
-    }, fiveSeconds);
+  // useEffect(() => {
+  //   const fiveSeconds = 5000;
+  //   const disableMessage = setTimeout(() => {
+  //     setCopyMessageToggle(false);
+  //   }, fiveSeconds);
 
-    return () => clearTimeout(disableMessage);
-  }, [copyMessageToggle, setCopyMessageToggle]);
+  //   return () => clearTimeout(disableMessage);
+  // }, [copyMessageToggle, setCopyMessageToggle]);
 
   function handleOnClickPush(type, id) {
     if (type === 'meal') {
