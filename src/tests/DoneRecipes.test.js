@@ -2,13 +2,27 @@ import React from 'react';
 import { screen, act, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-// import fetch from '../../cypress/mocks/fetch';
 import { renderWithRouter } from './helpers/renderWithRouter';
 
 describe('Teste DoneRecipes', () => {
-  // beforeEach(() => {
-  //   global.fetch = jest.fn(fetch);
-  // });
+  const initialClipboardText = { ...global.navigator.clipboard };
+  beforeEach(() => {
+    let clipboardText = '';
+    const mockClipboard = {
+      writeText: jest.fn(
+        () => { clipboardText = 'http://localhost:3000/meals/52771'; },
+      ),
+      readText: jest.fn(
+        () => clipboardText,
+      ),
+    };
+    global.navigator.clipboard = mockClipboard;
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+    global.navigator.clipboard = initialClipboardText;
+  });
   const imgTestId = '0-horizontal-image';
   const btnFinishMeals = 'finish-recipe-btn';
   it('Teste se a page DoneRecipes é renderizada corretamente para meals', async () => {
@@ -80,6 +94,16 @@ describe('Teste DoneRecipes', () => {
     expect(date).toBeVisible();
     expect(ingredient).toBeVisible();
     expect(btnShare).toBeVisible();
+
+    userEvent.click(btnShare);
+
+    const shareLink = 'http://localhost:3000/meals/52771';
+
+    const shareMessage = screen.getByText('Link copied!');
+
+    expect(navigator.clipboard.readText()).toBe(shareLink);
+    expect(navigator.clipboard.writeText).toBeCalledTimes(1);
+    expect(shareMessage).toBeInTheDocument();
 
     userEvent.click(btnDrinks);
     expect(img).not.toBeVisible();
