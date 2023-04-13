@@ -9,6 +9,7 @@ describe('Teste DoneRecipes', () => {
   // beforeEach(() => {
   //   global.fetch = jest.fn(fetch);
   // });
+  const btnFinishTestIdDrink = 'finish-recipe-btn';
   it('Teste se a page DoneRecipes é renderizada corretamente para drinks', async () => {
     const { history } = renderWithRouter(<App />);
 
@@ -57,7 +58,7 @@ describe('Teste DoneRecipes', () => {
     userEvent.click(ingredientsDrink[1]);
     userEvent.click(ingredientsDrink[2]);
 
-    const btnFinish = screen.getByTestId('finish-recipe-btn');
+    const btnFinish = screen.getByTestId(btnFinishTestIdDrink);
     userEvent.click(btnFinish);
 
     const ingredientDrink = await screen.findByText('IBA');
@@ -84,11 +85,39 @@ describe('Teste DoneRecipes', () => {
     userEvent.click(ingredientsDrink[1]);
     userEvent.click(ingredientsDrink[2]);
 
-    const btnFinish = screen.getByTestId('finish-recipe-btn');
+    const btnFinish = screen.getByTestId(btnFinishTestIdDrink);
     userEvent.click(btnFinish);
 
     const img = await screen.findByTestId('0-horizontal-image');
     userEvent.click(img);
+
+    expect(history.location.pathname).toBe('/drinks/15853');
+  });
+
+  it('Teste se ao clicar em name é redirecionado corretamente', async () => {
+    const { history } = renderWithRouter(<App />);
+
+    await act(async () => {
+      history.push('/drinks/15853/in-progress');
+    });
+
+    // await waitFor(() => {
+    //   expect(global.fetch).toBeCalled();
+    // });
+
+    const ingredientsDrink = await screen.findAllByRole('checkbox');
+
+    expect(ingredientsDrink).toHaveLength(3);
+
+    userEvent.click(ingredientsDrink[0]);
+    userEvent.click(ingredientsDrink[1]);
+    userEvent.click(ingredientsDrink[2]);
+
+    const btnFinish = screen.getByTestId(btnFinishTestIdDrink);
+    userEvent.click(btnFinish);
+
+    const nameDrink = await screen.findByTestId('0-horizontal-name');
+    userEvent.click(nameDrink);
 
     expect(history.location.pathname).toBe('/drinks/15853');
   });

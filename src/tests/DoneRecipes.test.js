@@ -10,6 +10,7 @@ describe('Teste DoneRecipes', () => {
   //   global.fetch = jest.fn(fetch);
   // });
   const imgTestId = '0-horizontal-image';
+  const btnFinishMeals = 'finish-recipe-btn';
   it('Teste se a page DoneRecipes é renderizada corretamente para meals', async () => {
     const { history } = renderWithRouter(<App />);
 
@@ -57,7 +58,7 @@ describe('Teste DoneRecipes', () => {
     userEvent.click(ingredients[6]);
     userEvent.click(ingredients[7]);
 
-    const btnFinish = screen.getByTestId('finish-recipe-btn');
+    const btnFinish = screen.getByTestId(btnFinishMeals);
     userEvent.click(btnFinish);
 
     const btnAll = await screen.findByTestId('filter-by-all-btn');
@@ -116,11 +117,44 @@ describe('Teste DoneRecipes', () => {
     userEvent.click(ingredients[6]);
     userEvent.click(ingredients[7]);
 
-    const btnFinish = screen.getByTestId('finish-recipe-btn');
+    const btnFinish = screen.getByTestId(btnFinishMeals);
     userEvent.click(btnFinish);
 
     const img = await screen.findByTestId('0-horizontal-image');
     userEvent.click(img);
+
+    expect(history.location.pathname).toBe('/meals/52771');
+  });
+
+  it('Teste se ao clicar no nome é redirecionado corretamente', async () => {
+    const { history } = renderWithRouter(<App />);
+
+    await act(async () => {
+      history.push('/meals/52771/in-progress');
+    });
+
+    // await waitFor(() => {
+    //   expect(global.fetch).toBeCalled();
+    // });
+
+    const ingredients = await screen.findAllByRole('checkbox');
+
+    expect(ingredients).toHaveLength(8);
+
+    userEvent.click(ingredients[0]);
+    userEvent.click(ingredients[1]);
+    userEvent.click(ingredients[2]);
+    userEvent.click(ingredients[3]);
+    userEvent.click(ingredients[4]);
+    userEvent.click(ingredients[5]);
+    userEvent.click(ingredients[6]);
+    userEvent.click(ingredients[7]);
+
+    const btnFinish = screen.getByTestId(btnFinishMeals);
+    userEvent.click(btnFinish);
+
+    const name = await screen.findByTestId('0-horizontal-name');
+    userEvent.click(name);
 
     expect(history.location.pathname).toBe('/meals/52771');
   });
